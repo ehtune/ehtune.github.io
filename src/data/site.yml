@@ -41,7 +41,7 @@ goals:
     text: Visiting speakers, an annual conference and links with economic history associations in Italy and abroad.
 
 # CONTACT
-email: ehtune@example.org            # ← replace with the network's real address
+email: michelangelo.vasta@unisi.it
 address:
   - Department of Economics and Statistics
   - University of Siena
@@ -62,6 +62,12 @@ social:
 supporters:
   - name: Department of Economics and Statistics, University of Siena
     url: https://www.deps.unisi.it
+
+# SECTIONS — switch parts of the site on (true) or off (false).
+#  research: the "Research & Projects" menu, its pages and the homepage section.
+#            The texts stay in src/content/projects/ and src/data/publications.yml, ready for later.
+sections:
+  research: false
 
 # MAIN MENU — "href" is the page address. Items with "children" become drop-down menus.
 nav:

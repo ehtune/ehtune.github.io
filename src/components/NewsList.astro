@@ -4,11 +4,12 @@ import { url, fmt } from '../lib/utils';
 interface Props {
   items: CollectionEntry<'news'>[];
   compact?: boolean;
+  empty?: string;
 }
-const { items, compact = false } = Astro.props;
+const { items, compact = false, empty = 'News from the network will be posted here.' } = Astro.props;
 ---
 {items.length === 0 ? (
-  <p class="border-y border-pietra-200 py-8 text-pietra">Nothing here yet.</p>
+  <p class="border-y border-pietra-200 py-8 text-pietra">{empty}</p>
 ) : (
   <ul class="border-t border-pietra-200">
     {items.map((n) => (

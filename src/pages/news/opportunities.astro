@@ -21,7 +21,7 @@ const closed = items.filter((n) => n.data.deadline && n.data.deadline < now);
   />
   <div class="container-page max-w-5xl pt-14">
     <h2 class="section-title">Open now</h2>
-    <NewsList items={open} />
+    <NewsList items={open} empty="There are no open calls at the moment. Calls for papers, fellowships and positions will be posted here." />
     {closed.length > 0 && (
       <>
         <h2 class="section-title mt-16">Closed</h2>

@@ -50,7 +50,8 @@ content:
       - { name: speakers, label: Speakers, type: string, list: true }
       - { name: summary, label: Summary (shown in lists), type: text, required: true }
       - { name: registration, label: Registration link, type: string }
-      - { name: programme, label: Programme (PDF), type: file, options: { input: public/files, output: /files } }
+      - { name: programme, label: Programme (PDF), type: file, options: { input: public/files/meetings, output: /files/meetings } }
+      - { name: cancelled, label: Cancelled (the event did not take place), type: boolean, default: false }
       - { name: body, component: body }
 
   # ── News ──────────────────────────────────────────────────────────────────
@@ -180,6 +181,11 @@ content:
         fields:
           - { name: title, type: string }
           - { name: text, type: text }
+      - name: sections
+        label: Sections shown on the site
+        type: object
+        fields:
+          - { name: research, label: Show Research & Projects, type: boolean, default: false }
       - { name: email, label: Contact e-mail, type: string }
       - { name: address, label: Postal address (one line per entry), type: string, list: true }
       - { name: contactFormEndpoint, label: Formspree address for the contact form (optional), type: string }

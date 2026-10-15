@@ -44,8 +44,14 @@ export const site = load(
     supporters: z.array(z.object({ name: z.string(), url: z.string().optional() })).nullish().transform((v) => v ?? []),
     nav: z.array(navItem),
     repository: z.string().url().optional(),
+    sections: z.object({ research: z.boolean().default(true) }).nullish().transform((v) => ({ research: v?.research ?? true })),
   }),
 );
+
+/** The menu as shown: items for switched-off sections are left out. */
+export const nav = site.nav
+  .filter((i) => site.sections.research || !i.href.startsWith('/research'))
+  .map((i) => ({ ...i, children: i.children?.filter((c) => site.sections.research || !c.href.startsWith('/research')) }));
 
 const institutionSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/, 'use lowercase letters, numbers or hyphens only'),

@@ -3,6 +3,10 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 import prefixBase from './src/integrations/prefix-base.mjs';
+import { readFileSync } from 'node:fs';
+import { parse } from 'yaml';
+
+const sections = parse(readFileSync(new URL('./src/data/site.yml', import.meta.url), 'utf8')).sections ?? {};
 
 /*
  * WHERE THE SITE LIVES
@@ -25,6 +29,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   build: { format: 'directory' },
   compressHTML: true,
-  integrations: [sitemap(), prefixBase()],
+  integrations: [sitemap({ filter: (page) => sections.research !== false || !page.includes('/research/') }), prefixBase()],
   vite: { plugins: [tailwindcss()] },
 });

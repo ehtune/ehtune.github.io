@@ -24,7 +24,8 @@ const events = defineCollection({
     speakers: z.array(z.string()).nullish().transform((v) => v ?? []),
     summary: z.string(),
     registration: optionalText, // link to a registration form
-    programme: optionalText, // link to a PDF programme
+    programme: optionalText, // link to a PDF programme, e.g. /files/meetings/ehtune-10-2026-pisa.pdf
+    cancelled: z.boolean().nullish().transform((v) => v ?? false), // true if the event did not take place
   }),
 });
 

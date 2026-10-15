@@ -18,7 +18,8 @@ speakers:                   # optional
   - Name Surname (University)
 summary: One or two sentences shown in the event list.
 registration: https://example.org/register   # optional link
-programme: /files/programme.pdf              # optional — upload the PDF to public/files/
+programme: /files/meetings/programme.pdf     # optional — upload the PDF to public/files/meetings/
+cancelled: false            # optional — true if the event did not take place
 ---
 
 Longer description, abstract or programme. You can use **bold**, *italics*, lists and [links](https://example.org).

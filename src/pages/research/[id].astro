@@ -2,10 +2,11 @@
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import { institutionById } from '../../lib/data';
+import { institutionById, site } from '../../lib/data';
 import { url } from '../../lib/utils';
 
 export async function getStaticPaths() {
+  if (!site.sections.research) return []; // section switched off in site.yml
   return (await getCollection('projects')).map((p) => ({ params: { id: p.id }, props: { project: p } }));
 }
 const { project } = Astro.props;

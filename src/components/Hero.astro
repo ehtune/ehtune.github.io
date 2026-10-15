@@ -3,6 +3,8 @@
 import TuscanyMap from './TuscanyMap.astro';
 import { site, institutions } from '../lib/data';
 import { url } from '../lib/utils';
+interface Props { hasUpcoming?: boolean }
+const { hasUpcoming = true } = Astro.props;
 const cities = new Set(institutions.map((i) => i.city)).size;
 const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
 const n = (x: number) => words[x] ?? String(x);
@@ -14,7 +16,9 @@ const n = (x: number) => words[x] ?? String(x);
       <p class="mt-7 max-w-[54ch] text-lg leading-relaxed text-ink/85 md:text-[1.2rem]">{site.mission}</p>
       <div class="mt-9 flex flex-wrap gap-3">
         <a href={url('/about/')} class="btn btn-primary">About the network</a>
-        <a href={url('/events/')} class="btn btn-secondary">Upcoming events</a>
+        {hasUpcoming
+          ? <a href={url('/events/')} class="btn btn-secondary">Upcoming events</a>
+          : <a href={url('/events/past/')} class="btn btn-secondary">Past workshops</a>}
       </div>
       <p class="mt-10 max-w-[48ch] border-t border-pietra-200 pt-4 text-[0.95rem] text-pietra">
         {n(institutions.length).replace(/^./, (c) => c.toUpperCase())} partner institutions in {n(cities)} Tuscan cities.

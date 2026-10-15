@@ -1,7 +1,9 @@
 ---
 // HOMEPAGE — modelled on the All-UC Group in Economic History: name and mission, our history,
-// then upcoming events beside the latest news, then research and the member institutions.
+// then upcoming events beside the latest news, then research and the partner institutions.
 // The texts live in src/data/site.yml; events, news and projects in src/content/.
+// Sections without content are left out automatically: the events/news band appears as soon as
+// an upcoming event or a news item exists, and research when it is switched on in site.yml.
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
@@ -14,18 +16,21 @@ import { url, today } from '../lib/utils';
 
 const now = today();
 const upcoming = (await getCollection('events'))
-  .filter((e) => (e.data.endDate ?? e.data.date) >= now)
+  .filter((e) => (e.data.endDate ?? e.data.date) >= now && !e.data.cancelled)
   .sort((a, b) => +a.data.date - +b.data.date)
   .slice(0, 4);
 const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
-const projects = (await getCollection('projects'))
-  .filter((p) => p.data.status === 'Active')
-  .sort((a, b) => a.data.order - b.data.order)
-  .slice(0, 3);
+const projects = site.sections.research
+  ? (await getCollection('projects'))
+      .filter((p) => p.data.status === 'Active')
+      .sort((a, b) => a.data.order - b.data.order)
+      .slice(0, 3)
+  : [];
 const historyParas = site.history.trim().split(/\n\s*\n/);
+const both = upcoming.length > 0 && news.length > 0;
 ---
 <BaseLayout>
-  <Hero />
+  <Hero hasUpcoming={upcoming.length > 0} />
 
   <!-- Our history -->
   <section class="container-page grid gap-10 py-20 lg:grid-cols-12" aria-labelledby="history-title">
@@ -36,34 +41,42 @@ const historyParas = site.history.trim().split(/\n\s*\n/);
     </div>
   </section>
 
-  <!-- Upcoming events | In the news -->
-  <section class="border-y border-pietra-200 bg-pietra-100/60" aria-label="Events and news">
-    <div class="container-page grid gap-14 py-20 lg:grid-cols-12">
-      <div class="lg:col-span-7">
-        <h2 class="section-title flex items-baseline justify-between gap-4">
-          Upcoming events
-          <a href={url('/events/')} class="link font-sans text-[0.95rem]">All events</a>
-        </h2>
-        <EventLedger events={upcoming} compact />
+  <!-- Upcoming events | In the news (only when there is something to show) -->
+  {(upcoming.length > 0 || news.length > 0) && (
+    <section class="mb-20 border-y border-pietra-200 bg-pietra-100/60" aria-label="Events and news">
+      <div class="container-page grid gap-14 py-20 lg:grid-cols-12">
+        {upcoming.length > 0 && (
+          <div class:list={[both ? 'lg:col-span-7' : 'lg:col-span-12']}>
+            <h2 class="section-title flex items-baseline justify-between gap-4">
+              Upcoming events
+              <a href={url('/events/')} class="link font-sans text-[0.95rem]">All events</a>
+            </h2>
+            <EventLedger events={upcoming} compact />
+          </div>
+        )}
+        {news.length > 0 && (
+          <div class:list={[both ? 'lg:col-span-5' : 'lg:col-span-12']}>
+            <h2 class="section-title flex items-baseline justify-between gap-4">
+              In the news
+              <a href={url('/news/')} class="link font-sans text-[0.95rem]">All news</a>
+            </h2>
+            <NewsList items={news} compact />
+          </div>
+        )}
       </div>
-      <div class="lg:col-span-5">
-        <h2 class="section-title flex items-baseline justify-between gap-4">
-          In the news
-          <a href={url('/news/')} class="link font-sans text-[0.95rem]">All news</a>
-        </h2>
-        <NewsList items={news} compact />
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <!-- Research -->
-  <section class="container-page py-20" aria-labelledby="research-title">
-    <h2 id="research-title" class="section-title flex items-baseline justify-between gap-4">
-      Research tracks
-      <a href={url('/research/')} class="link font-sans text-[0.95rem]">All research</a>
-    </h2>
-    <ProjectList projects={projects} compact />
-  </section>
+  <!-- Research (switch: site.yml → sections → research) -->
+  {projects.length > 0 && (
+    <section class="container-page pb-20" aria-labelledby="research-title">
+      <h2 id="research-title" class="section-title flex items-baseline justify-between gap-4">
+        Research tracks
+        <a href={url('/research/')} class="link font-sans text-[0.95rem]">All research</a>
+      </h2>
+      <ProjectList projects={projects} compact />
+    </section>
+  )}
 
   <!-- Institutions -->
   <section class="container-page pb-4" aria-labelledby="institutions-title">

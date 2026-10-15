@@ -31,9 +31,12 @@ const isPast = (d.endDate ?? d.date) < today();
       </dl>
       <div class="mt-8 flex flex-wrap gap-3">
         {d.registration && !isPast && <a href={d.registration} class="btn btn-primary">Register</a>}
-        {d.programme && <a href={url(d.programme)} class="btn btn-secondary">Programme</a>}
+        {d.programme && <a href={url(d.programme)} class={isPast ? 'btn btn-primary' : 'btn btn-secondary'}>{d.cancelled ? 'Planned programme (PDF)' : 'Programme (PDF)'}</a>}
       </div>
     </aside>
-    <article class="prose-ehtune lg:order-1 lg:col-span-8"><Content /></article>
+    <article class="prose-ehtune lg:order-1 lg:col-span-8">
+      {d.cancelled && <p class="not-prose mb-6 border-l-[3px] border-double border-cinabro bg-cinabro-50 px-5 py-3 font-semibold text-cinabro">This event was cancelled. The programme below is the one that had been planned.</p>}
+      <Content />
+    </article>
   </div>
 </BaseLayout>

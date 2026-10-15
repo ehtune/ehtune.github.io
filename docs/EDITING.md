@@ -71,7 +71,12 @@ Abstract of the paper.
 ```
 
 The event appears under **Upcoming events** and on the homepage, and moves to **Past events**
-automatically the day after it ends. For a multi-day event, add `endDate: 2027-03-13`.
+automatically the day after it ends. To attach the programme, upload the PDF to `public/files/meetings/`
+(*Add file → Upload files*) and add `programme: /files/meetings/the-file-name.pdf`. For an event that did
+not take place, add `cancelled: true`.
+
+The homepage shows the *Upcoming events* and *In the news* band only when there is at least one upcoming
+event or news item, so it appears again by itself when you add one. For a multi-day event, add `endDate: 2027-03-13`.
 
 ### Add or remove a member
 
@@ -95,6 +100,12 @@ surname, so the order in the file does not matter.
 * `url` is the person's institutional or personal page. Write `url: ""` if there is none: the name is then shown without a link.
 * To remove someone, delete their four lines.
 * For many names at once, fill in the Excel template (`docs/members-template.xlsx`) and send it to whoever maintains the site.
+
+### Show or hide Research & Projects
+
+The *Research & Projects* section is switched off for now. To switch it on, open `src/data/site.yml`
+and change `research: false` to `research: true` under `sections:`. The menu item, its pages and the
+homepage section then reappear, with the texts in `src/content/projects/` and `src/data/publications.yml`.
 
 ### Add a research track or project
 

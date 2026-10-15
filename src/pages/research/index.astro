@@ -3,12 +3,14 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ProjectList from '../../components/ProjectList.astro';
-import { publications } from '../../lib/data';
+import { publications, site } from '../../lib/data';
 import { url } from '../../lib/utils';
 
 const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 const active = all.filter((p) => p.data.status === 'Active');
 const completed = all.filter((p) => p.data.status === 'Completed');
+// Section switched off in src/data/site.yml (sections → research: false): send visitors home.
+if (!site.sections.research) return Astro.redirect(import.meta.env.BASE_URL);
 ---
 <BaseLayout title="Research & Projects">
   <PageHeader

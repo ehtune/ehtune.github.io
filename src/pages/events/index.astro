@@ -25,6 +25,12 @@ const upcoming = (await getCollection('events'))
     </p>
   </PageHeader>
   <div class="container-page pt-14">
-    <EventLedger events={upcoming} />
+    <EventLedger
+      events={upcoming}
+      empty="There are no upcoming events at the moment. The next workshops and seminars will be announced here."
+    />
+    {upcoming.length === 0 && (
+      <p class="mt-6"><a href={url('/events/past/')} class="link">See the programmes of past workshops</a></p>
+    )}
   </div>
 </BaseLayout>
