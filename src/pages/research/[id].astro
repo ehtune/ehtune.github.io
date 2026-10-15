@@ -1,0 +1,31 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { institutionById } from '../../lib/data';
+import { url } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  return (await getCollection('projects')).map((p) => ({ params: { id: p.id }, props: { project: p } }));
+}
+const { project } = Astro.props;
+const d = project.data;
+const { Content } = await render(project);
+const insts = d.institutions.map((id) => institutionById(id, `Project "${project.id}"`)!);
+---
+<BaseLayout title={d.title} description={d.summary}>
+  <PageHeader title={d.title} intro={d.summary} crumbs={[{ label: 'Research & Projects', href: '/research/' }]} />
+  <div class="container-page grid gap-12 pt-14 lg:grid-cols-12">
+    <article class="prose-ehtune lg:col-span-8"><Content /></article>
+    <aside class="lg:col-span-4">
+      <dl class="space-y-4 border-t-[3px] border-double border-cinabro pt-5 text-[0.98rem]">
+        <div><dt class="text-pietra">Status</dt><dd class="font-semibold">{d.status}{d.period && `, ${d.period}`}</dd></div>
+        {d.coordinators.length > 0 && <div><dt class="text-pietra">Led by</dt><dd>{d.coordinators.join(', ')}</dd></div>}
+        {insts.length > 0 && <div><dt class="text-pietra">Institutions</dt><dd>{insts.map((i) => <span class="block">{i.name}</span>)}</dd></div>}
+        {d.funding && <div><dt class="text-pietra">Funding</dt><dd>{d.funding}</dd></div>}
+        {d.website && <div><dt class="text-pietra">Project website</dt><dd><a class="link" href={d.website}>{d.website.replace(/^https?:\/\//, '')}</a></dd></div>}
+      </dl>
+      <p class="mt-8"><a href={url('/research/')} class="link">Back to research</a></p>
+    </aside>
+  </div>
+</BaseLayout>

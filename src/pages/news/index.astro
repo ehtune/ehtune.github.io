@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import NewsList from '../../components/NewsList.astro';
+import { url } from '../../lib/utils';
+
+const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date);
+---
+<BaseLayout title="News">
+  <PageHeader
+    title="News"
+    intro="Publications, prizes, appointments and other news from across the network."
+    crumbs={[{ label: 'News & Events', href: '/events/' }, { label: 'News', href: '/news/' }]}
+  >
+    <p class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[0.95rem]">
+      <a href={url('/events/')} class="link">Upcoming events</a>
+      <a href={url('/news/opportunities/')} class="link">Opportunities and calls</a>
+    </p>
+  </PageHeader>
+  <div class="container-page max-w-5xl pt-14">
+    <NewsList items={news} />
+  </div>
+</BaseLayout>

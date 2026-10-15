@@ -1,0 +1,44 @@
+# MIGRATION HELPER — builds the whole site as plain HTML files for another web server
+# (e.g. the University of Siena) and offers it as a downloadable .zip.
+#
+# How to use: GitHub → Actions → "Export site for another server" → Run workflow →
+# type the new address → wait ~1 minute → open the finished run → download "ehtune-site".
+# Give the zip to the IT office: its contents go in the web folder, nothing else is needed.
+name: Export site for another server
+
+on:
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: 'Domain of the new server, without a trailing slash (e.g. https://www.unisi.it)'
+        required: true
+        default: 'https://www.unisi.it'
+      base_path:
+        description: 'Folder on that server (e.g. /ehtune). Use / if the site sits at the root of the domain.'
+        required: true
+        default: '/ehtune'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Build for the new address
+        run: npm run build
+        env:
+          SITE_URL: ${{ inputs.site_url }}
+          BASE_PATH: ${{ inputs.base_path }}
+      - name: Offer the built site as a download
+        uses: actions/upload-artifact@v7
+        with:
+          name: ehtune-site
+          path: dist/
+          retention-days: 30

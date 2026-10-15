@@ -1,0 +1,125 @@
+---
+// Map of Tuscany with the network's institutions.
+// Positions come from lat/lon in src/data/institutions.yml, so adding an institution there
+// adds it to the map automatically. Institutions closer than a few kilometres share one marker.
+import map from '../data/tuscany-map.json';
+import { institutions, site } from '../lib/data';
+import { url } from '../lib/utils';
+
+const { minLon, maxLat, kx, scale, pad } = map.projection;
+const [, , W, H] = map.viewBox.split(' ').map(Number);
+const project = (lon: number, lat: number) => ({ x: (lon - minLon) * kx * scale + pad, y: (maxLat - lat) * scale + pad });
+
+// 1. Cluster nearby institutions into one marker.
+type Cluster = { x: number; y: number; cities: string[]; names: string[]; short: string[] };
+const clusters: Cluster[] = [];
+for (const inst of institutions) {
+  const p = project(inst.lon, inst.lat);
+  const near = clusters.find((c) => Math.hypot(c.x - p.x, c.y - p.y) < 22);
+  if (near) {
+    if (!near.cities.includes(inst.city)) near.cities.push(inst.city);
+    near.names.push(inst.name);
+    near.short.push(inst.shortName);
+  } else clusters.push({ ...p, cities: [inst.city], names: [inst.name], short: [inst.shortName] });
+}
+
+// 2. Place labels left of western markers and right of eastern ones, then keep them from overlapping.
+const midX = W * 0.42;
+const GAP = 60; // vertical space each label needs (name + institutions line)
+type Label = Cluster & { side: 'left' | 'right'; ly: number };
+const labels: Label[] = clusters.map((c) => ({ ...c, side: c.x < midX ? 'left' : 'right', ly: c.y }));
+for (const side of ['left', 'right'] as const) {
+  const group = labels.filter((l) => l.side === side).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < group.length; i++) {
+    if (group[i].ly - group[i - 1].ly < GAP) {
+      const overlap = GAP - (group[i].ly - group[i - 1].ly);
+      group[i - 1].ly -= overlap / 2;
+      group[i].ly += overlap / 2;
+    }
+  }
+}
+const labelX = (l: Label) => (l.side === 'left' ? l.x - 30 : l.x + 30);
+
+// 3. Network lines between every pair of markers.
+const lines: [Cluster, Cluster][] = [];
+clusters.forEach((a, i) => clusters.slice(i + 1).forEach((b) => lines.push([a, b])));
+
+// 4. Graticule (meridians and parallels) every half degree.
+const parallels = [42.5, 43, 43.5, 44].map((lat) => ({ lat, y: project(minLon, lat).y })).filter((p) => p.y > 0 && p.y < H);
+const meridians = [10, 10.5, 11, 11.5, 12].map((lon) => ({ lon, x: project(lon, maxLat).x })).filter((m) => m.x > 0 && m.x < W);
+const deg = (v: number, pos: string, neg: string) => `${Math.floor(Math.abs(v))}°${Math.abs(v) % 1 ? '30′' : ''} ${v >= 0 ? pos : neg}`;
+---
+<figure class="tuscany-map relative">
+  <svg viewBox={map.viewBox} class="h-auto w-full" role="img" aria-labelledby="map-title map-desc">
+    <title id="map-title">The {site.shortName} network in Tuscany</title>
+    <desc id="map-desc">Map of Tuscany marking the member institutions: {institutions.map((i) => `${i.name} (${i.city})`).join('; ')}.</desc>
+
+    <g class="text-pietra-200" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 4">
+      {parallels.map((p) => <line x1="0" x2={W} y1={p.y} y2={p.y} />)}
+      {meridians.map((m) => <line y1="0" y2={H} x1={m.x} x2={m.x} />)}
+    </g>
+    <g class="fill-pietra font-sans" font-size="11" letter-spacing="0.04em">
+      {parallels.map((p) => <text x={W - 6} y={p.y - 5} text-anchor="end">{deg(p.lat, 'N', 'S')}</text>)}
+      {meridians.map((m) => <text x={m.x + 5} y={H - 8}>{deg(m.lon, 'E', 'W')}</text>)}
+    </g>
+
+    <path d={map.path} class="fill-carta stroke-pietra" stroke-width="1.1" stroke-linejoin="round" />
+
+    <g class="network-lines stroke-cipresso" stroke-width="1" fill="none" opacity="0.55">
+      {lines.map(([a, b], i) => (
+        <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} pathLength="1" style={`--i:${i}`} />
+      ))}
+    </g>
+
+    {labels.map((l) => (
+      <a href={url('/about/members/#institutions')} aria-label={l.names.join(', ')} class="map-marker">
+        <polyline
+          points={`${l.x},${l.y} ${l.side === 'left' ? l.x - 14 : l.x + 14},${l.ly} ${labelX(l) + (l.side === 'left' ? 4 : -4)},${l.ly}`}
+          class="stroke-pietra" stroke-width="0.75" fill="none"
+        />
+        <circle cx={l.x} cy={l.y} r="11" class="fill-cinabro/10" />
+        <circle cx={l.x} cy={l.y} r={4 + Math.min(l.names.length, 4)} class="fill-cinabro stroke-carta" stroke-width="2" />
+        <text
+          x={labelX(l)} y={l.ly + 2}
+          text-anchor={l.side === 'left' ? 'end' : 'start'}
+          class="map-city fill-ink font-display italic" font-size="21"
+        >{l.cities.join(', ')}</text>
+        <text
+          x={labelX(l)} y={l.ly + 20}
+          text-anchor={l.side === 'left' ? 'end' : 'start'}
+          class="map-inst fill-pietra font-sans" font-size="12.5"
+        >{l.short.join(', ')}</text>
+        <title>{l.names.join('\n')}</title>
+      </a>
+    ))}
+  </svg>
+</figure>
+
+<style>
+  /* The one orchestrated motion on the site: the network draws itself once on load. */
+  @media (prefers-reduced-motion: no-preference) {
+    .network-lines line {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: draw 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+      animation-delay: calc(0.35s + var(--i) * 0.09s);
+    }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+  }
+  /* Cartographic halo: labels stay legible where they cross the coastline or the network lines. */
+  .map-marker text {
+    paint-order: stroke;
+    stroke: var(--color-carta);
+    stroke-width: 5px;
+    stroke-linejoin: round;
+  }
+  /* On phones the map is drawn small: larger city names, institutions listed elsewhere on the page. */
+  @media (max-width: 640px) {
+    .map-city { font-size: 30px; }
+    .map-inst { display: none; }
+  }
+  .map-marker:hover text:first-of-type,
+  .map-marker:focus-visible text:first-of-type { fill: var(--color-cinabro); }
+  .map-marker:focus-visible { outline: none; }
+  .map-marker:focus-visible circle:last-of-type { stroke: var(--color-cinabro); stroke-width: 3; }
+</style>

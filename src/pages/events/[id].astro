@@ -1,0 +1,39 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { institutionById } from '../../lib/data';
+import { url, dateRange, today } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  return (await getCollection('events')).map((e) => ({ params: { id: e.id }, props: { event: e } }));
+}
+const { event } = Astro.props;
+const d = event.data;
+const { Content } = await render(event);
+const inst = institutionById(d.institution, `Event "${event.id}"`);
+const isPast = (d.endDate ?? d.date) < today();
+---
+<BaseLayout title={d.title} description={d.summary}>
+  <PageHeader
+    title={d.title}
+    intro={d.summary}
+    crumbs={[{ label: 'News & Events', href: '/events/' }, ...(isPast ? [{ label: 'Past events', href: '/events/past/' }] : [])]}
+  />
+  <div class="container-page grid gap-12 pt-14 lg:grid-cols-12">
+    <aside class="lg:order-2 lg:col-span-4">
+      <dl class="space-y-4 border-t-[3px] border-double border-cinabro pt-5 text-[0.98rem]">
+        <div><dt class="text-pietra">Date</dt><dd class="font-display text-[1.4rem]">{dateRange(d.date, d.endDate)}</dd></div>
+        {d.time && <div><dt class="text-pietra">Time</dt><dd>{d.time}</dd></div>}
+        <div><dt class="text-pietra">Place</dt><dd>{d.location}{inst && <span class="block text-pietra">{inst.name}</span>}</dd></div>
+        <div><dt class="text-pietra">Type</dt><dd>{d.type}</dd></div>
+        {d.speakers.length > 0 && <div><dt class="text-pietra">Speakers</dt><dd>{d.speakers.map((s) => <span class="block">{s}</span>)}</dd></div>}
+      </dl>
+      <div class="mt-8 flex flex-wrap gap-3">
+        {d.registration && !isPast && <a href={d.registration} class="btn btn-primary">Register</a>}
+        {d.programme && <a href={url(d.programme)} class="btn btn-secondary">Programme</a>}
+      </div>
+    </aside>
+    <article class="prose-ehtune lg:order-1 lg:col-span-8"><Content /></article>
+  </div>
+</BaseLayout>

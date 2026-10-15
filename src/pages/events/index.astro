@@ -1,0 +1,30 @@
+---
+// Upcoming events. An event moves to "Past events" automatically the day after it ends
+// (the site rebuilds itself every night — see .github/workflows/deploy.yml).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import EventLedger from '../../components/EventLedger.astro';
+import { url, today } from '../../lib/utils';
+
+const now = today();
+const upcoming = (await getCollection('events'))
+  .filter((e) => (e.data.endDate ?? e.data.date) >= now)
+  .sort((a, b) => +a.data.date - +b.data.date);
+---
+<BaseLayout title="Upcoming events">
+  <PageHeader
+    title="Upcoming events"
+    intro="Seminars, workshops and conferences organised by the network and its member institutions. Everyone interested in economic history is welcome."
+    crumbs={[{ label: 'News & Events', href: '/events/' }]}
+  >
+    <p class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-[0.95rem]">
+      <a href={url('/events/past/')} class="link">Past events</a>
+      <a href={url('/news/')} class="link">News</a>
+      <a href={url('/news/opportunities/')} class="link">Opportunities and calls</a>
+    </p>
+  </PageHeader>
+  <div class="container-page pt-14">
+    <EventLedger events={upcoming} />
+  </div>
+</BaseLayout>

@@ -1,0 +1,74 @@
+---
+// Site header: wordmark + main menu. The menu itself is defined in src/data/site.yml (nav:).
+import Logo from './Logo.astro';
+import { site } from '../lib/data';
+import { url, isActive } from '../lib/utils';
+const current = Astro.url.pathname;
+---
+<header class="sticky top-0 z-40 border-b border-pietra-200 bg-intonaco/95 backdrop-blur supports-[backdrop-filter]:bg-intonaco/85">
+  <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-3 focus:bg-carta focus:px-3 focus:py-2">Skip to content</a>
+  <div class="container-page flex h-[4.75rem] items-center justify-between gap-6">
+    <a href={url('/')} class="shrink-0" aria-label={`${site.shortName} — home`}><Logo /></a>
+
+    <!-- Desktop menu -->
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {site.nav.map((item) => (
+          <li class="group relative">
+            <a
+              href={url(item.href)}
+              class:list={[
+                'flex items-center gap-1 px-3 py-2 text-[0.95rem] font-semibold transition-colors',
+                isActive(item.href, current) ? 'text-cipresso' : 'text-ink/80 hover:text-cipresso',
+              ]}
+              aria-current={isActive(item.href, current) && item.href === current ? 'page' : undefined}
+              aria-haspopup={item.children ? 'true' : undefined}
+            >
+              {item.label}
+              {item.children && (
+                <svg class="size-3 opacity-60 transition-transform group-hover:rotate-180 group-focus-within:rotate-180" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>
+              )}
+            </a>
+            {isActive(item.href, current) && <span class="absolute inset-x-3 -bottom-[0.9rem] h-[2px] bg-cinabro" aria-hidden="true" />}
+            {item.children && (
+              <div class="invisible absolute left-0 top-full pt-3 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                <ul class="min-w-60 border border-pietra-200 bg-carta py-2 shadow-[0_12px_30px_-12px_rgb(31_40_43/0.25)]">
+                  {item.children.map((child) => (
+                    <li>
+                      <a href={url(child.href)} class="block px-4 py-2 text-[0.93rem] text-ink hover:bg-cipresso-100 hover:text-cipresso focus-visible:bg-cipresso-100">{child.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Mobile menu -->
+    <details class="group/menu lg:hidden">
+      <summary class="flex cursor-pointer list-none items-center gap-2 px-2 py-2 font-semibold text-cipresso [&::-webkit-details-marker]:hidden">
+        <span>Menu</span>
+        <svg class="size-5 group-open/menu:hidden" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-width="1.5" /></svg>
+        <svg class="hidden size-5 group-open/menu:block" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.5" /></svg>
+      </summary>
+      <nav aria-label="Main (mobile)" class="absolute inset-x-0 top-full max-h-[80vh] overflow-y-auto border-b border-pietra-200 bg-carta shadow-lg">
+        <ul class="container-page divide-y divide-pietra-200 py-2">
+          {site.nav.map((item) => (
+            <li class="py-2">
+              <a href={url(item.href)} class="block py-1.5 font-display text-xl">{item.label}</a>
+              {item.children && (
+                <ul class="mb-1 ml-1 border-l border-cinabro/40 pl-4">
+                  {item.children.map((child) => (
+                    <li><a href={url(child.href)} class="block py-1.5 text-pietra hover:text-cipresso">{child.label}</a></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

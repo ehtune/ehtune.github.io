@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { institutionById } from '../lib/data';
+import { url } from '../lib/utils';
+interface Props { projects: CollectionEntry<'projects'>[]; compact?: boolean }
+const { projects, compact = false } = Astro.props;
+---
+<ul class="border-t border-pietra-200">
+  {projects.map((p) => {
+    const d = p.data;
+    const insts = d.institutions.map((id) => institutionById(id, `Project "${p.id}"`)!);
+    return (
+      <li class="group relative grid gap-x-10 gap-y-2 border-b border-pietra-200 py-7 md:grid-cols-[minmax(0,1fr)_16rem]">
+        <div>
+          <h3 class:list={['font-display leading-snug group-hover:text-cipresso', compact ? 'text-[1.5rem]' : 'text-[1.75rem]']}>
+            <a href={url(`/research/${p.id}/`)} class="after:absolute after:inset-0">{d.title}</a>
+          </h3>
+          <p class="mt-2 max-w-[62ch] leading-relaxed text-ink/90">{d.summary}</p>
+        </div>
+        <dl class="grid content-start gap-1 text-[0.9rem] text-pietra md:pt-2">
+          <div class="flex gap-2"><dt class="sr-only">Status</dt><dd><span class:list={['tag', d.status === 'Completed' && '!bg-pietra-100 !text-pietra']}>{d.status}</span>{d.period && <span class="ml-2">{d.period}</span>}</dd></div>
+          {d.coordinators.length > 0 && <div><dt class="inline">Led by </dt><dd class="inline text-ink">{d.coordinators.join(', ')}</dd></div>}
+          {insts.length > 0 && <div><dt class="sr-only">Institutions</dt><dd>{insts.map((i) => i.shortName).join(', ')}</dd></div>}
+        </dl>
+      </li>
+    );
+  })}
+</ul>

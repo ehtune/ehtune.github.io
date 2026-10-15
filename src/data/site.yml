@@ -1,0 +1,105 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  SITE SETTINGS — the texts and links that appear on every page.
+#  Edit the text after the colon. Keep the indentation (spaces) as it is.
+#  Lines starting with # are notes and are ignored.
+#  DRAFT: every text below is a starting draft — please review it.
+# ─────────────────────────────────────────────────────────────────────────────
+
+shortName: EH/tune
+fullName: Tuscan University Network in Economic History
+tagline: Economic historians across Tuscany's universities, working together.
+
+# Shown in Google results and when the site is shared on social media.
+description: >-
+  EH/tune connects the economic historians of Tuscany's universities and research
+  institutes through shared seminars, conferences, doctoral training and research projects.
+
+# HOMEPAGE — mission (short) and history (a few paragraphs, separated by a blank line).
+mission: >-
+  EH/tune brings together the economic historians working in Tuscany's universities and
+  research institutes. We organise seminars, workshops and an annual conference, support
+  doctoral students and early-career researchers, and build shared research projects on the
+  long-run economic history of Italy, Europe and the wider world.
+
+history: |
+  EH/tune grew out of years of informal collaboration among economic historians in Tuscany,
+  many of whom already teach together in the joint PhD in Economics of the Tuscan Universities
+  offered by Siena, Florence and Pisa.
+
+  The network gives that collaboration a permanent home: a common calendar of seminars, a
+  meeting place for faculty and doctoral students across campuses, and a platform for research
+  projects too large for any single department.
+
+goals:
+  - title: Share research
+    text: A common calendar of seminars and workshops, so that work presented in one city reaches colleagues in all the others.
+  - title: Train the next generation
+    text: Doctoral and early-career workshops where students present work in progress to faculty from every member institution.
+  - title: Build common projects
+    text: Joint research tracks, datasets and funding applications that draw on the strengths of several departments.
+  - title: Open Tuscany to the field
+    text: Visiting speakers, an annual conference and links with economic history associations in Italy and abroad.
+
+# CONTACT
+email: ehtune@example.org            # ← replace with the network's real address
+address:
+  - Department of Economics and Statistics
+  - University of Siena
+  - Piazza San Francesco 7
+  - 53100 Siena, Italy
+
+# Optional: paste a Formspree (https://formspree.io) form address here to receive the
+# contact form by e-mail, e.g. https://formspree.io/f/abcdwxyz
+# Leave it empty and the form will open the visitor's own e-mail program instead.
+contactFormEndpoint: ""
+
+# Optional social / external links shown in the footer. Delete the lines you don't need.
+social:
+  - label: GitHub
+    url: https://github.com/ehtune
+
+# Supporters and partners, listed on the About page (like "Support Recognition" on the All-UC site).
+supporters:
+  - name: Department of Economics and Statistics, University of Siena
+    url: https://www.deps.unisi.it
+
+# MAIN MENU — "href" is the page address. Items with "children" become drop-down menus.
+nav:
+  - label: Home
+    href: /
+  - label: About
+    href: /about/
+    children:
+      - label: Mission and history
+        href: /about/
+      - label: Steering committee
+        href: /about/members/#steering-committee
+      - label: Members directory
+        href: /about/members/
+      - label: Participating institutions
+        href: /about/members/#institutions
+      - label: Supporters
+        href: /about/#supporters
+  - label: Research & Projects
+    href: /research/
+    children:
+      - label: Research tracks
+        href: /research/
+      - label: Publications
+        href: /research/publications/
+  - label: News & Events
+    href: /events/
+    children:
+      - label: Upcoming events
+        href: /events/
+      - label: Past events
+        href: /events/past/
+      - label: News
+        href: /news/
+      - label: Opportunities
+        href: /news/opportunities/
+  - label: Contact
+    href: /contact/
+
+# Where the "Edit this site" link in the footer points.
+repository: https://github.com/ehtune/ehtune.github.io

@@ -1,0 +1,97 @@
+---
+// Members grouped by role, with a filter by institution and a search box.
+// Groups and their order are fixed here; each member file chooses its group with `group:`.
+import { getCollection } from 'astro:content';
+import MemberEntry from './MemberEntry.astro';
+import { institutions } from '../lib/data';
+
+const GROUPS = [
+  { key: 'Coordinator', id: 'coordinator', title: 'Coordinator' },
+  { key: 'Steering committee', id: 'steering-committee', title: 'Steering committee' },
+  { key: 'Faculty', id: 'faculty', title: 'Faculty' },
+  { key: 'Researchers', id: 'researchers', title: 'Researchers' },
+  { key: 'PhD students', id: 'phd-students', title: 'PhD students' },
+  { key: 'Affiliates', id: 'affiliates', title: 'Affiliates' },
+] as const;
+
+const collator = new Intl.Collator('it');
+const surname = (n: string) => n.trim().split(/\s+/).at(-1) ?? n;
+const all = (await getCollection('members')).sort(
+  (a, b) => a.data.order - b.data.order || collator.compare(surname(a.data.name), surname(b.data.name)),
+);
+const groups = GROUPS.map((g) => ({ ...g, members: all.filter((m) => m.data.group === g.key) })).filter((g) => g.members.length);
+const usedInstitutions = institutions.filter((i) => all.some((m) => m.data.institution === i.id));
+---
+<div data-directory>
+  <div class="mb-12 flex flex-col gap-4 border-y border-pietra-200 bg-carta px-4 py-4 md:flex-row md:items-center md:justify-between" data-controls hidden>
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Filter by institution">
+      <button type="button" data-filter="all" aria-pressed="true" class="filter-btn">All institutions</button>
+      {usedInstitutions.map((i) => <button type="button" data-filter={i.id} aria-pressed="false" class="filter-btn">{i.shortName}</button>)}
+    </div>
+    <label class="flex items-center gap-2 text-[0.95rem]">
+      <span class="text-pietra">Search</span>
+      <input type="search" data-search-input placeholder="Name or research interest" class="w-full border border-pietra-200 bg-intonaco px-3 py-1.5 md:w-64" />
+    </label>
+  </div>
+
+  {groups.map((g) => (
+    <section id={g.id} class="member-group mb-16 scroll-mt-28" aria-labelledby={`${g.id}-title`}>
+      <h2 id={`${g.id}-title`} class="section-title">
+        {g.title}
+        <span class="ml-2 align-middle font-sans text-base font-normal text-pietra">{g.members.length}</span>
+      </h2>
+      <div class:list={['grid gap-x-10 gap-y-10', g.key === 'Coordinator' ? '' : 'sm:grid-cols-2 lg:grid-cols-3']}>
+        {g.members.map((m) => <MemberEntry member={m} featured={g.key === 'Coordinator'} />)}
+      </div>
+    </section>
+  ))}
+  <p data-no-results hidden class="py-10 text-pietra">No members match this filter. Try another institution or clear the search.</p>
+</div>
+
+<style>
+  .filter-btn {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid var(--color-pietra-200);
+    border-radius: 2px;
+    color: var(--color-ink);
+  }
+  .filter-btn:hover { border-color: var(--color-cipresso); color: var(--color-cipresso); }
+  .filter-btn[aria-pressed='true'] { background: var(--color-cipresso); border-color: var(--color-cipresso); color: var(--color-intonaco); }
+</style>
+
+<script>
+  // Progressive enhancement: without JavaScript the full directory is simply shown.
+  for (const root of document.querySelectorAll<HTMLElement>('[data-directory]')) {
+    const controls = root.querySelector<HTMLElement>('[data-controls]')!;
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]')!;
+    const none = root.querySelector<HTMLElement>('[data-no-results]')!;
+    controls.hidden = false;
+    let filter = 'all';
+    const apply = () => {
+      const q = input.value.trim().toLowerCase();
+      let visible = 0;
+      for (const group of root.querySelectorAll<HTMLElement>('.member-group')) {
+        let inGroup = 0;
+        for (const m of group.querySelectorAll<HTMLElement>('.member')) {
+          const show = (filter === 'all' || m.dataset.institution === filter) && (!q || m.dataset.search!.includes(q));
+          m.hidden = !show;
+          if (show) inGroup++;
+        }
+        group.hidden = inGroup === 0;
+        visible += inGroup;
+      }
+      none.hidden = visible > 0;
+    };
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        filter = b.dataset.filter!;
+        buttons.forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        apply();
+      }),
+    );
+    input.addEventListener('input', apply);
+  }
+</script>

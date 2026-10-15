@@ -1,0 +1,32 @@
+---
+// News items with category "Opportunity" or "Call for papers" (like "Opportunities" on the All-UC site).
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import NewsList from '../../components/NewsList.astro';
+import { today } from '../../lib/utils';
+
+const now = today();
+const items = (await getCollection('news'))
+  .filter((n) => n.data.category === 'Opportunity' || n.data.category === 'Call for papers')
+  .sort((a, b) => +b.data.date - +a.data.date);
+const open = items.filter((n) => !n.data.deadline || n.data.deadline >= now);
+const closed = items.filter((n) => n.data.deadline && n.data.deadline < now);
+---
+<BaseLayout title="Opportunities">
+  <PageHeader
+    title="Opportunities and calls"
+    intro="PhD positions, fellowships, calls for papers and grants of interest to economic historians."
+    crumbs={[{ label: 'News & Events', href: '/events/' }, { label: 'Opportunities', href: '/news/opportunities/' }]}
+  />
+  <div class="container-page max-w-5xl pt-14">
+    <h2 class="section-title">Open now</h2>
+    <NewsList items={open} />
+    {closed.length > 0 && (
+      <>
+        <h2 class="section-title mt-16">Closed</h2>
+        <NewsList items={closed} />
+      </>
+    )}
+  </div>
+</BaseLayout>

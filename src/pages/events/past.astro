@@ -1,0 +1,29 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import EventLedger from '../../components/EventLedger.astro';
+import { today } from '../../lib/utils';
+
+const now = today();
+const past = (await getCollection('events'))
+  .filter((e) => (e.data.endDate ?? e.data.date) < now)
+  .sort((a, b) => +b.data.date - +a.data.date);
+const years = [...new Set(past.map((e) => e.data.date.getUTCFullYear()))];
+---
+<BaseLayout title="Past events">
+  <PageHeader
+    title="Past events"
+    intro="An archive of the network's seminars, workshops and conferences."
+    crumbs={[{ label: 'News & Events', href: '/events/' }, { label: 'Past events', href: '/events/past/' }]}
+  />
+  <div class="container-page pt-14">
+    {past.length === 0 && <EventLedger events={[]} empty="The archive is empty for now." />}
+    {years.map((y) => (
+      <section class="mb-14" aria-labelledby={`y${y}`}>
+        <h2 id={`y${y}`} class="mb-4 font-display text-[2rem] text-cinabro">{y}</h2>
+        <EventLedger events={past.filter((e) => e.data.date.getUTCFullYear() === y)} />
+      </section>
+    ))}
+  </div>
+</BaseLayout>

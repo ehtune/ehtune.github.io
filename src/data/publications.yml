@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  PUBLICATIONS AND WORKING PAPERS
+#  Newest first is not required — the site sorts by year automatically.
+#  type: one of  Article | Working paper | Book | Chapter | Dataset
+#  The entries below are PLACEHOLDERS (Mario Rossi = "John Doe"). Replace them.
+# ─────────────────────────────────────────────────────────────────────────────
+
+publications:
+  - authors: Rossi, M. and Bianchi, M.
+    year: 2026
+    title: Title of the first EH/tune working paper
+    venue: EH/tune Working Paper Series, no. 1
+    type: Working paper
+    url: ""
+
+  - authors: Verdi, L.
+    year: 2025
+    title: Title of a journal article by a network member
+    venue: Journal name, volume(issue), pages
+    type: Article
+    url: ""
+
+  - authors: Neri, G. (ed.)
+    year: 2024
+    title: Title of an edited volume
+    venue: Publisher, City
+    type: Book
+    url: ""

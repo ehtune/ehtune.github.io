@@ -1,0 +1,30 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url, fmt } from '../lib/utils';
+interface Props {
+  items: CollectionEntry<'news'>[];
+  compact?: boolean;
+}
+const { items, compact = false } = Astro.props;
+---
+{items.length === 0 ? (
+  <p class="border-y border-pietra-200 py-8 text-pietra">Nothing here yet.</p>
+) : (
+  <ul class="border-t border-pietra-200">
+    {items.map((n) => (
+      <li class="group relative border-b border-pietra-200 py-5">
+        <p class="flex flex-wrap items-center gap-x-3 text-[0.9rem] text-pietra">
+          <time datetime={fmt.iso(n.data.date)}>{fmt.long(n.data.date)}</time>
+          {n.data.category !== 'News' && <span class="tag">{n.data.category}</span>}
+        </p>
+        <h3 class:list={['mt-1.5 font-display leading-snug group-hover:text-cipresso', compact ? 'text-xl' : 'text-2xl']}>
+          <a href={url(`/news/${n.id}/`)} class="after:absolute after:inset-0">{n.data.title}</a>
+        </h3>
+        <p class:list={['mt-2 max-w-[65ch] leading-relaxed', compact ? 'text-[0.95rem] text-pietra' : 'text-[0.98rem]']}>{n.data.summary}</p>
+        {n.data.deadline && (
+          <p class="mt-2 text-[0.9rem] font-semibold text-cinabro">Deadline: {fmt.long(n.data.deadline)}</p>
+        )}
+      </li>
+    ))}
+  </ul>
+)}

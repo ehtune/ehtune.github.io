@@ -1,0 +1,32 @@
+---
+// Publications are listed in src/data/publications.yml.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { publications, site } from '../../lib/data';
+
+const years = [...new Set(publications.map((p) => p.year))];
+---
+<BaseLayout title="Publications">
+  <PageHeader
+    title="Publications"
+    intro={`Working papers, articles and books by ${site.shortName} members, newest first.`}
+    crumbs={[{ label: 'Research & Projects', href: '/research/' }, { label: 'Publications', href: '/research/publications/' }]}
+  />
+  <div class="container-page pt-16">
+    {years.map((y) => (
+      <section class="grid gap-4 border-t border-pietra-200 py-8 md:grid-cols-[8rem_1fr]" aria-label={String(y)}>
+        <h2 class="font-display text-[2rem] text-cinabro">{y}</h2>
+        <ul class="space-y-5">
+          {publications.filter((p) => p.year === y).map((p) => (
+            <li class="max-w-[75ch]">
+              <span class="tag mb-1.5">{p.type}</span>
+              <p class="leading-relaxed">
+                {p.authors}. {p.url ? <a href={p.url} class="link font-normal">{p.title}</a> : <em>{p.title}</em>}.{p.venue && <span class="text-pietra"> {p.venue}.</span>}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</BaseLayout>

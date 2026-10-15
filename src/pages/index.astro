@@ -1,0 +1,76 @@
+---
+// HOMEPAGE — modelled on the All-UC Group in Economic History: name and mission, our history,
+// then upcoming events beside the latest news, then research and the member institutions.
+// The texts live in src/data/site.yml; events, news and projects in src/content/.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import EventLedger from '../components/EventLedger.astro';
+import NewsList from '../components/NewsList.astro';
+import ProjectList from '../components/ProjectList.astro';
+import InstitutionList from '../components/InstitutionList.astro';
+import { site } from '../lib/data';
+import { url, today } from '../lib/utils';
+
+const now = today();
+const upcoming = (await getCollection('events'))
+  .filter((e) => (e.data.endDate ?? e.data.date) >= now)
+  .sort((a, b) => +a.data.date - +b.data.date)
+  .slice(0, 4);
+const news = (await getCollection('news')).sort((a, b) => +b.data.date - +a.data.date).slice(0, 3);
+const projects = (await getCollection('projects'))
+  .filter((p) => p.data.status === 'Active')
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+const historyParas = site.history.trim().split(/\n\s*\n/);
+---
+<BaseLayout>
+  <Hero />
+
+  <!-- Our history -->
+  <section class="container-page grid gap-10 py-20 lg:grid-cols-12" aria-labelledby="history-title">
+    <h2 id="history-title" class="text-[clamp(2rem,1.6rem+1.4vw,2.8rem)] lg:col-span-4">Our history</h2>
+    <div class="space-y-5 text-[1.08rem] leading-[1.75] lg:col-span-7">
+      {historyParas.map((p) => <p>{p}</p>)}
+      <p><a href={url('/about/')} class="link">Read about the network's goals</a></p>
+    </div>
+  </section>
+
+  <!-- Upcoming events | In the news -->
+  <section class="border-y border-pietra-200 bg-pietra-100/60" aria-label="Events and news">
+    <div class="container-page grid gap-14 py-20 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <h2 class="section-title flex items-baseline justify-between gap-4">
+          Upcoming events
+          <a href={url('/events/')} class="link font-sans text-[0.95rem]">All events</a>
+        </h2>
+        <EventLedger events={upcoming} compact />
+      </div>
+      <div class="lg:col-span-5">
+        <h2 class="section-title flex items-baseline justify-between gap-4">
+          In the news
+          <a href={url('/news/')} class="link font-sans text-[0.95rem]">All news</a>
+        </h2>
+        <NewsList items={news} compact />
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section class="container-page py-20" aria-labelledby="research-title">
+    <h2 id="research-title" class="section-title flex items-baseline justify-between gap-4">
+      Research tracks
+      <a href={url('/research/')} class="link font-sans text-[0.95rem]">All research</a>
+    </h2>
+    <ProjectList projects={projects} compact />
+  </section>
+
+  <!-- Institutions -->
+  <section class="container-page pb-4" aria-labelledby="institutions-title">
+    <h2 id="institutions-title" class="section-title flex items-baseline justify-between gap-4">
+      Participating institutions
+      <a href={url('/about/members/')} class="link font-sans text-[0.95rem]">Members directory</a>
+    </h2>
+    <InstitutionList />
+  </section>
+</BaseLayout>

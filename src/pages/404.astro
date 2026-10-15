@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../lib/utils';
+---
+<BaseLayout title="Page not found">
+  <div class="container-page py-24">
+    <h1 class="text-display">Page not found</h1>
+    <p class="mt-6 max-w-[55ch] text-lg text-pietra">The page may have moved when the site was reorganised. Start again from the homepage or look through the latest events.</p>
+    <p class="mt-8 flex flex-wrap gap-3">
+      <a href={url('/')} class="btn btn-primary">Go to the homepage</a>
+      <a href={url('/events/')} class="btn btn-secondary">See upcoming events</a>
+    </p>
+  </div>
+</BaseLayout>

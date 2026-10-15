@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { site } from '../../lib/data';
+import { url } from '../../lib/utils';
+const historyParas = site.history.trim().split(/\n\s*\n/);
+---
+<BaseLayout title="About" description={site.mission}>
+  <PageHeader title="About the network" intro={site.tagline} crumbs={[{ label: 'About', href: '/about/' }]} />
+
+  <div class="container-page">
+    <section class="grid gap-10 py-16 lg:grid-cols-12" aria-labelledby="mission">
+      <h2 id="mission" class="text-[2.2rem] lg:col-span-4">Mission</h2>
+      <p class="text-[1.2rem] leading-relaxed lg:col-span-7">{site.mission}</p>
+    </section>
+
+    <section class="grid gap-10 border-t border-pietra-200 py-16 lg:grid-cols-12" aria-labelledby="history">
+      <h2 id="history" class="text-[2.2rem] lg:col-span-4">Our history</h2>
+      <div class="space-y-5 text-[1.08rem] leading-[1.75] lg:col-span-7">{historyParas.map((p) => <p>{p}</p>)}</div>
+    </section>
+
+    <section class="border-t border-pietra-200 py-16" aria-labelledby="goals">
+      <h2 id="goals" class="mb-10 text-[2.2rem]">What we do</h2>
+      <dl class="grid gap-x-12 gap-y-10 md:grid-cols-2">
+        {site.goals.map((g) => (
+          <div class="border-l-[3px] border-double border-cinabro pl-6">
+            <dt class="font-display text-[1.5rem] leading-snug">{g.title}</dt>
+            <dd class="mt-2 max-w-[52ch] leading-relaxed text-ink/85">{g.text}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <section class="grid gap-10 border-t border-pietra-200 py-16 lg:grid-cols-12" aria-labelledby="people">
+      <h2 id="people" class="text-[2.2rem] lg:col-span-4">People</h2>
+      <div class="lg:col-span-7">
+        <p class="text-[1.08rem] leading-relaxed">
+          The network is run by a coordinator and a steering committee drawn from the member institutions.
+          Its members are faculty, researchers and doctoral students working on economic history.
+        </p>
+        <p class="mt-6 flex flex-wrap gap-3">
+          <a href={url('/about/members/#steering-committee')} class="btn btn-primary">Steering committee</a>
+          <a href={url('/about/members/')} class="btn btn-secondary">Members directory</a>
+        </p>
+      </div>
+    </section>
+
+    {site.supporters.length > 0 && (
+      <section id="supporters" class="grid scroll-mt-28 gap-10 border-t border-pietra-200 py-16 lg:grid-cols-12" aria-labelledby="supporters-title">
+        <h2 id="supporters-title" class="text-[2.2rem] lg:col-span-4">Supporters</h2>
+        <div class="lg:col-span-7">
+          <p class="mb-5 leading-relaxed text-pietra">We gratefully acknowledge the institutions that support the network's activities.</p>
+          <ul class="space-y-2 text-[1.05rem]">
+            {site.supporters.map((s) => <li>{s.url ? <a href={s.url} class="link">{s.name}</a> : s.name}</li>)}
+          </ul>
+        </div>
+      </section>
+    )}
+  </div>
+</BaseLayout>

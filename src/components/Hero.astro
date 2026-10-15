@@ -1,0 +1,28 @@
+---
+// Homepage opening: the network's name and mission beside the map of its institutions.
+import TuscanyMap from './TuscanyMap.astro';
+import { site, institutions } from '../lib/data';
+import { url } from '../lib/utils';
+const cities = new Set(institutions.map((i) => i.city)).size;
+const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'];
+const n = (x: number) => words[x] ?? String(x);
+---
+<section class="border-b border-pietra-200 bg-carta" aria-labelledby="hero-title">
+  <div class="container-page grid items-center gap-10 py-12 md:py-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16 lg:py-20">
+    <div>
+      <h1 id="hero-title" class="text-display font-medium">{site.fullName}</h1>
+      <p class="mt-7 max-w-[54ch] text-lg leading-relaxed text-ink/85 md:text-[1.2rem]">{site.mission}</p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href={url('/about/')} class="btn btn-primary">About the network</a>
+        <a href={url('/events/')} class="btn btn-secondary">Upcoming events</a>
+      </div>
+      <p class="mt-10 max-w-[48ch] border-t border-pietra-200 pt-4 text-[0.95rem] text-pietra">
+        {n(institutions.length).replace(/^./, (c) => c.toUpperCase())} universities and research institutes in {n(cities)} Tuscan cities.
+        <a href={url('/about/members/')} class="link ml-1">Meet the members</a>
+      </p>
+    </div>
+    <div class="mx-auto w-full max-w-[34rem] lg:max-w-none">
+      <TuscanyMap />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+// Title band for inner pages: breadcrumb, Bodoni title, optional introduction.
+import { url } from '../lib/utils';
+interface Props {
+  title: string;
+  intro?: string;
+  crumbs?: { label: string; href: string }[];
+}
+const { title, intro, crumbs = [] } = Astro.props;
+---
+<div class="border-b border-pietra-200 bg-carta">
+  <div class="container-page pb-12 pt-10 md:pb-16 md:pt-14">
+    {crumbs.length > 0 && (
+      <nav aria-label="Breadcrumb" class="mb-6 text-sm text-pietra">
+        <ol class="flex flex-wrap items-center gap-2">
+          <li><a href={url('/')} class="hover:text-cipresso">Home</a></li>
+          {crumbs.map((c) => (
+            <li class="flex items-center gap-2">
+              <span aria-hidden="true" class="text-cinabro">/</span>
+              <a href={url(c.href)} class="hover:text-cipresso">{c.label}</a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <h1 class="max-w-4xl text-[clamp(2.2rem,1.6rem+2.4vw,3.6rem)] leading-[1.06]">{title}</h1>
+    {intro && <p class="mt-5 max-w-[62ch] text-lg leading-relaxed text-pietra">{intro}</p>}
+    <slot />
+  </div>
+</div>

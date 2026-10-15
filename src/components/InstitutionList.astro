@@ -1,0 +1,18 @@
+---
+// Participating institutions, grouped by city.
+import { institutions } from '../lib/data';
+const cities = [...new Set(institutions.map((i) => i.city))];
+---
+<dl class="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
+  {cities.map((city) => (
+    <div class="border-t border-pietra-200 py-5">
+      <dt class="font-display text-[1.4rem] italic text-ink">{city}</dt>
+      {institutions.filter((i) => i.city === city).map((i) => (
+        <dd class="mt-2">
+          {i.url ? <a href={i.url} class="font-semibold text-cipresso hover:underline">{i.name}</a> : <span class="font-semibold">{i.name}</span>}
+          {i.department && <span class="block text-[0.9rem] text-pietra">{i.department}</span>}
+        </dd>
+      ))}
+    </div>
+  ))}
+</dl>

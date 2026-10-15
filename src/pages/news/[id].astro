@@ -1,0 +1,32 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { url, fmt } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  return (await getCollection('news')).map((n) => ({ params: { id: n.id }, props: { item: n } }));
+}
+const { item } = Astro.props;
+const d = item.data;
+const { Content } = await render(item);
+---
+<BaseLayout title={d.title} description={d.summary}>
+  <PageHeader title={d.title} crumbs={[{ label: 'News', href: '/news/' }]}>
+    <p class="mt-5 flex flex-wrap items-center gap-3 text-pietra">
+      <time datetime={fmt.iso(d.date)}>{fmt.long(d.date)}</time>
+      <span class="tag">{d.category}</span>
+    </p>
+  </PageHeader>
+  <div class="container-page pt-14">
+    <article class="prose-ehtune">
+      <p class="lead">{d.summary}</p>
+      <Content />
+    </article>
+    {d.deadline && <p class="mt-6 font-semibold text-cinabro">Deadline: {fmt.long(d.deadline)}</p>}
+    <p class="mt-8 flex flex-wrap gap-3">
+      {d.link && <a href={d.link} class="btn btn-primary">More information</a>}
+      <a href={url('/news/')} class="btn btn-secondary">All news</a>
+    </p>
+  </div>
+</BaseLayout>

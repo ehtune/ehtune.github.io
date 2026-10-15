@@ -1,0 +1,87 @@
+---
+// CONTACT — address and e-mail come from src/data/site.yml.
+// The form works without any external service: it opens the visitor's e-mail program.
+// To receive messages directly, paste a Formspree address in site.yml → contactFormEndpoint.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { site } from '../lib/data';
+const endpoint = site.contactFormEndpoint;
+---
+<BaseLayout title="Contact">
+  <PageHeader
+    title="Contact"
+    intro="Write to us about the network, our events, joining as a member or presenting your research."
+    crumbs={[{ label: 'Contact', href: '/contact/' }]}
+  />
+  <div class="container-page grid gap-14 pt-14 lg:grid-cols-12">
+    <aside class="lg:col-span-4">
+      <h2 class="font-display text-[1.6rem]">Write to us</h2>
+      <p class="mt-3"><a href={`mailto:${site.email}`} class="link text-[1.1rem]">{site.email}</a></p>
+      <h2 class="mt-10 font-display text-[1.6rem]">Address</h2>
+      <address class="mt-3 not-italic leading-relaxed">{site.address.map((l) => <>{l}<br /></>)}</address>
+    </aside>
+
+    <form
+      class="contact-form grid gap-5 border-t-[3px] border-double border-cinabro pt-6 lg:col-span-7 lg:col-start-6"
+      method="post"
+      action={endpoint || `mailto:${site.email}`}
+      data-mailto={endpoint ? undefined : site.email}
+    >
+      <div class="grid gap-5 sm:grid-cols-2">
+        <label class="grid gap-1.5">
+          <span class="font-semibold">Name</span>
+          <input name="name" required autocomplete="name" />
+        </label>
+        <label class="grid gap-1.5">
+          <span class="font-semibold">E-mail</span>
+          <input name="email" type="email" required autocomplete="email" />
+        </label>
+      </div>
+      <label class="grid gap-1.5">
+        <span class="font-semibold">Subject</span>
+        <select name="subject">
+          <option>General enquiry</option>
+          <option>Joining the network</option>
+          <option>Presenting at a seminar</option>
+          <option>Events and conferences</option>
+          <option>Something else</option>
+        </select>
+      </label>
+      <label class="grid gap-1.5">
+        <span class="font-semibold">Message</span>
+        <textarea name="message" rows="7" required></textarea>
+      </label>
+      <div class="flex flex-wrap items-center gap-4">
+        <button type="submit" class="btn btn-primary">Send message</button>
+        {!endpoint && <p class="text-[0.9rem] text-pietra">Opens your e-mail program with the message ready to send.</p>}
+      </div>
+    </form>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-form :is(input, select, textarea) {
+    width: 100%;
+    border: 1px solid var(--color-pietra-200);
+    background: var(--color-carta);
+    padding: 0.6rem 0.75rem;
+    border-radius: 2px;
+    font: inherit;
+  }
+  .contact-form :is(input, select, textarea):focus-visible {
+    outline: 2px solid var(--color-cipresso);
+    outline-offset: 0;
+  }
+</style>
+
+<script>
+  // Without a form service, compose an e-mail in the visitor's mail program.
+  const form = document.querySelector<HTMLFormElement>('form[data-mailto]');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const f = new FormData(form);
+    const subject = `[EH/tune] ${f.get('subject')}`;
+    const body = `${f.get('message')}\n\n${f.get('name')}\n${f.get('email')}`;
+    window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>

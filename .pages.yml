@@ -1,0 +1,227 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Pages CMS configuration — gives editors simple web forms at https://app.pagescms.org
+#  (sign in with GitHub, open ehtune/ehtune.github.io). Every "Save" commits to GitHub and
+#  the site republishes itself within about a minute. See docs/EDITING.md.
+#  If you add an institution to src/data/institutions.yml, add its id to the two
+#  "institution" lists below as well.
+# ─────────────────────────────────────────────────────────────────────────────
+
+media:
+  input: public/images
+  output: /images
+
+components:
+  institutionIds:
+    type: select
+    options:
+      values: [unisi, unifi, unipi, sns, santanna, imt, eui, unistrasi]
+  body:
+    label: Text
+    type: rich-text
+    options:
+      format: markdown
+
+content:
+  # ── Events ────────────────────────────────────────────────────────────────
+  - name: events
+    label: Events
+    type: collection
+    path: src/content/events
+    format: yaml-frontmatter
+    exclude: [_TEMPLATE.md]
+    filename: '{fields.date}-{primary}.md'
+    view:
+      fields: [title, date, type]
+      primary: title
+      sort: [date, title]
+      default: { sort: date, order: desc }
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - name: type
+        label: Type
+        type: select
+        required: true
+        options: { values: [Seminar, Workshop, Conference, Lecture, PhD workshop, Summer school, Other] }
+      - { name: date, label: Date, type: date, required: true, options: { format: yyyy-MM-dd } }
+      - { name: endDate, label: End date (multi-day events only), type: date, options: { format: yyyy-MM-dd } }
+      - { name: time, label: Time (e.g. 14:30–16:30), type: string }
+      - { name: location, label: Place, type: string, required: true }
+      - { name: institution, label: Host institution, component: institutionIds }
+      - { name: speakers, label: Speakers, type: string, list: true }
+      - { name: summary, label: Summary (shown in lists), type: text, required: true }
+      - { name: registration, label: Registration link, type: string }
+      - { name: programme, label: Programme (PDF), type: file, options: { input: public/files, output: /files } }
+      - { name: body, component: body }
+
+  # ── News ──────────────────────────────────────────────────────────────────
+  - name: news
+    label: News
+    type: collection
+    path: src/content/news
+    format: yaml-frontmatter
+    exclude: [_TEMPLATE.md]
+    filename: '{fields.date}-{primary}.md'
+    view:
+      fields: [title, date, category]
+      primary: title
+      sort: [date, title]
+      default: { sort: date, order: desc }
+    fields:
+      - { name: title, label: Headline, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true, options: { format: yyyy-MM-dd } }
+      - name: category
+        label: Category
+        type: select
+        default: News
+        options: { values: [News, Publication, Award, Opportunity, Call for papers] }
+      - { name: summary, label: Summary (shown in lists), type: text, required: true }
+      - { name: link, label: External link, type: string }
+      - { name: deadline, label: Deadline (calls and opportunities), type: date, options: { format: yyyy-MM-dd } }
+      - { name: body, component: body }
+
+  # ── Members ───────────────────────────────────────────────────────────────
+  - name: members
+    label: Members
+    type: collection
+    path: src/content/members
+    format: yaml-frontmatter
+    exclude: [_TEMPLATE.md]
+    filename: '{primary}.md'
+    view:
+      fields: [name, group, institution]
+      primary: name
+      sort: [name, group]
+      default: { sort: name, order: asc }
+    fields:
+      - { name: name, label: Full name, type: string, required: true }
+      - { name: role, label: Position (e.g. Associate Professor of Economic History), type: string, required: true }
+      - name: group
+        label: Group
+        type: select
+        required: true
+        options: { values: [Coordinator, Steering committee, Faculty, Researchers, PhD students, Affiliates] }
+      - { name: institution, label: Institution, component: institutionIds, required: true }
+      - { name: department, label: Department, type: string }
+      - { name: photo, label: Photo (square), type: image, options: { input: public/images/members, output: /images/members } }
+      - { name: email, label: E-mail, type: string }
+      - { name: website, label: Personal web page, type: string }
+      - { name: interests, label: Research interests, type: string, list: true }
+      - { name: order, label: Order within group (smaller first), type: number, default: 100 }
+      - { name: body, label: Short biography, type: rich-text, options: { format: markdown } }
+
+  # ── Research tracks and projects ──────────────────────────────────────────
+  - name: projects
+    label: Research & Projects
+    type: collection
+    path: src/content/projects
+    format: yaml-frontmatter
+    exclude: [_TEMPLATE.md]
+    filename: '{primary}.md'
+    view:
+      fields: [title, status]
+      primary: title
+      default: { sort: title, order: asc }
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: status, label: Status, type: select, default: Active, options: { values: [Active, Completed] } }
+      - { name: period, label: Period (e.g. 2025–2028), type: string }
+      - { name: coordinators, label: Led by, type: string, list: true }
+      - { name: institutions, label: Institutions, component: institutionIds, list: true }
+      - { name: funding, label: Funding, type: string }
+      - { name: summary, label: Summary (shown in lists), type: text, required: true }
+      - { name: website, label: Project website, type: string }
+      - { name: order, label: Order (smaller first), type: number, default: 100 }
+      - { name: body, component: body }
+
+  # ── Publications (one file) ───────────────────────────────────────────────
+  - name: publications
+    label: Publications
+    type: file
+    path: src/data/publications.yml
+    format: yaml
+    fields:
+      - name: publications
+        label: Publications
+        type: object
+        list: true
+        fields:
+          - { name: authors, label: Authors (e.g. Rossi, M. and Bianchi, M.), type: string, required: true }
+          - { name: year, label: Year, type: number, required: true }
+          - { name: title, label: Title, type: string, required: true }
+          - { name: venue, label: Journal / series / publisher, type: string }
+          - { name: type, label: Type, type: select, options: { values: [Article, Working paper, Book, Chapter, Dataset] } }
+          - { name: url, label: Link, type: string }
+
+  # ── Institutions (one file) ───────────────────────────────────────────────
+  - name: institutions
+    label: Institutions
+    type: file
+    path: src/data/institutions.yml
+    format: yaml
+    fields:
+      - name: institutions
+        label: Institutions
+        type: object
+        list: true
+        fields:
+          - { name: id, label: Short id (lowercase, no spaces), type: string, required: true }
+          - { name: name, label: Full name, type: string, required: true }
+          - { name: shortName, label: Short name (for the map), type: string, required: true }
+          - { name: city, label: City, type: string, required: true }
+          - { name: department, label: Department, type: string }
+          - { name: url, label: Website, type: string }
+          - { name: lat, label: Latitude (e.g. 43.3186), type: number, required: true }
+          - { name: lon, label: Longitude (e.g. 11.3306), type: number, required: true }
+
+  # ── Site settings (one file) ──────────────────────────────────────────────
+  - name: site
+    label: Site settings and texts
+    type: file
+    path: src/data/site.yml
+    format: yaml
+    fields:
+      - { name: shortName, label: Short name, type: string }
+      - { name: fullName, label: Full name, type: string }
+      - { name: tagline, label: Tagline, type: string }
+      - { name: description, label: Description for search engines, type: text }
+      - { name: mission, label: Mission (homepage), type: text }
+      - { name: history, label: Our history (homepage and About), type: text }
+      - name: goals
+        label: What we do (About page)
+        type: object
+        list: true
+        fields:
+          - { name: title, type: string }
+          - { name: text, type: text }
+      - { name: email, label: Contact e-mail, type: string }
+      - { name: address, label: Postal address (one line per entry), type: string, list: true }
+      - { name: contactFormEndpoint, label: Formspree address for the contact form (optional), type: string }
+      - name: social
+        label: Footer links
+        type: object
+        list: true
+        fields:
+          - { name: label, type: string }
+          - { name: url, type: string }
+      - name: supporters
+        label: Supporters (About page)
+        type: object
+        list: true
+        fields:
+          - { name: name, type: string }
+          - { name: url, type: string }
+      - name: nav
+        label: Main menu
+        type: object
+        list: true
+        fields:
+          - { name: label, type: string }
+          - { name: href, label: Address (e.g. /about/), type: string }
+          - name: children
+            label: Drop-down items
+            type: object
+            list: true
+            fields:
+              - { name: label, type: string }
+              - { name: href, type: string }
+      - { name: repository, label: GitHub repository address, type: string }

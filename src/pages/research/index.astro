@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ProjectList from '../../components/ProjectList.astro';
+import { publications } from '../../lib/data';
+import { url } from '../../lib/utils';
+
+const all = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const active = all.filter((p) => p.data.status === 'Active');
+const completed = all.filter((p) => p.data.status === 'Completed');
+---
+<BaseLayout title="Research & Projects">
+  <PageHeader
+    title="Research and projects"
+    intro="Research tracks and working groups that bring together members from several institutions, from medieval merchants to twentieth-century industrialisation."
+    crumbs={[{ label: 'Research & Projects', href: '/research/' }]}
+  />
+  <div class="container-page pt-16">
+    <section aria-labelledby="active" class="mb-20">
+      <h2 id="active" class="section-title">Research tracks</h2>
+      <ProjectList projects={active} />
+    </section>
+    {completed.length > 0 && (
+      <section aria-labelledby="completed" class="mb-20">
+        <h2 id="completed" class="section-title">Completed projects</h2>
+        <ProjectList projects={completed} />
+      </section>
+    )}
+    <section aria-labelledby="pubs">
+      <h2 id="pubs" class="section-title flex items-baseline justify-between gap-4">
+        Recent publications
+        <a href={url('/research/publications/')} class="link font-sans text-[0.95rem]">All publications</a>
+      </h2>
+      <ul class="space-y-4">
+        {publications.slice(0, 5).map((p) => (
+          <li class="max-w-[75ch] leading-relaxed">
+            {p.authors} ({p.year}). {p.url ? <a href={p.url} class="link font-normal">{p.title}</a> : <em>{p.title}</em>}.{p.venue && <span class="text-pietra"> {p.venue}.</span>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,56 @@
+---
+// Event timeline styled after a Tuscan account book: a date column, the red double rule
+// that ledgers used to separate it, and the entry itself.
+import type { CollectionEntry } from 'astro:content';
+import { institutionById } from '../lib/data';
+import { url, fmt, dateRange } from '../lib/utils';
+
+interface Props {
+  events: CollectionEntry<'events'>[];
+  compact?: boolean; // homepage version: no summary, no speakers
+  empty?: string;
+}
+const { events, compact = false, empty = 'No events are scheduled at the moment. Check back soon.' } = Astro.props;
+---
+{events.length === 0 ? (
+  <p class="border-y border-pietra-200 py-8 text-pietra">{empty}</p>
+) : (
+  <ol class="ledger border-t border-pietra-200">
+    {events.map((e) => {
+      const d = e.data;
+      const inst = institutionById(d.institution, `Event "${e.id}"`);
+      return (
+        <li class="ledger-row group relative grid grid-cols-[4.25rem_1fr] border-b border-pietra-200 sm:grid-cols-[5.5rem_1fr]">
+          <time datetime={fmt.iso(d.date)} class="flex flex-col items-center justify-start py-5 text-center leading-none">
+            <span class="font-display text-[2.4rem] font-medium text-cinabro">{fmt.day(d.date)}</span>
+            <span class="mt-1.5 text-[0.85rem] font-semibold text-ink">{fmt.month(d.date)}</span>
+            <span class="mt-0.5 text-[0.8rem] text-pietra">{fmt.year(d.date)}</span>
+          </time>
+          <div class="ledger-entry py-5 pl-5 sm:pl-7">
+            <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-[0.9rem] text-pietra">
+              <span class="tag">{d.type}</span>
+              {d.endDate && <span>{dateRange(d.date, d.endDate)}</span>}
+              {d.time && <span>{d.time}</span>}
+            </p>
+            <h3 class:list={['mt-2 font-display leading-snug', compact ? 'text-xl' : 'text-2xl']}>
+              <a href={url(`/events/${e.id}/`)} class="after:absolute after:inset-0 group-hover:text-cipresso">{d.title}</a>
+            </h3>
+            <p class="mt-1.5 text-[0.95rem] text-pietra">
+              {d.location}{inst && !d.location.includes(inst.city) ? `, ${inst.name}` : ''}
+            </p>
+            {!compact && d.speakers.length > 0 && <p class="mt-2 text-[0.95rem]"><span class="text-pietra">With </span>{d.speakers.join(', ')}</p>}
+            {!compact && <p class="mt-3 max-w-[65ch] text-[0.98rem] leading-relaxed">{d.summary}</p>}
+          </div>
+        </li>
+      );
+    })}
+  </ol>
+)}
+
+<style>
+  /* The ledger's red double rule between the date column and the entry. */
+  .ledger-entry {
+    border-left: 3px double var(--color-cinabro);
+  }
+  .ledger-row:hover { background: color-mix(in srgb, var(--color-carta) 70%, transparent); }
+</style>
