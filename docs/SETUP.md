@@ -45,10 +45,14 @@ organization's owner, and you can add colleagues as co-owners so the site never 
 Choose **one** of these.
 
 **A. GitHub Desktop (easiest, no command line)**
-1. Install https://desktop.github.com and sign in.
-2. *File → Add local repository →* choose the unzipped `ehtune.github.io` folder → it will offer to
-   "create a repository" here: accept.
-3. Click **Publish repository**, choose the organization **ehtune**, untick "Keep this code private", publish.
+> With this option **skip Step 2**: GitHub Desktop creates the repository for you. If you already created
+> it on the website, use option B or C instead (or delete the empty repository first).
+1. Install https://desktop.github.com and sign in with your GitHub account.
+2. *File → Add local repository →* choose the unzipped `ehtune.github.io` folder. It says the folder is
+   not a Git repository yet: click **create a repository**, keep the name `ehtune.github.io`, click **Create repository**.
+3. Click **Publish repository**. Untick **Keep this code private**, choose **ehtune** under *Organization*, click **Publish**.
+   (If `ehtune` is missing from the list: on github.com open *Settings → Applications → Authorized OAuth Apps →
+   GitHub Desktop* and click **Grant** next to ehtune, then try again.)
 
 **B. Command line**
 ```bash
@@ -68,8 +72,10 @@ the **contents** of the folder. On a Mac, press `Cmd + Shift + .` in Finder firs
 
 1. In the repository: **Settings → Pages**.
 2. Under **Build and deployment → Source**, choose **GitHub Actions**.
-3. Open the **Actions** tab. If no run has started, choose *Deploy to GitHub Pages → Run workflow*.
-4. After about a minute the run turns green. Visit **https://ehtune.github.io** — the site is live.
+3. Open the **Actions** tab. The run started by your upload probably **failed (red ✗)** because Pages was
+   not switched on yet — that is expected. Click **Deploy to GitHub Pages** in the left list → **Run workflow** → **Run workflow**.
+4. After 1–3 minutes the run turns green. Visit **https://ehtune.github.io** — the site is live.
+   (The very first publication can take a few extra minutes to appear; reload if you see a 404.)
 
 From now on, every change saved on GitHub republishes the site automatically, and it also rebuilds every
 night so that finished events move to "Past events" by themselves.
