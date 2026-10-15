@@ -54,9 +54,9 @@ Fonts are self-hosted (no Google Fonts calls), which helps GDPR compliance on a 
 ```
 HOME (desktop)
 ┌───────────────────────────────────────────────────────────────┐
-│ EH/tune | Tuscan University…     Home About▾ Research▾ News▾ Contact │  Header (sticky)
+│ EH/tune | Tuscany University…   Home About▾ Research▾ News▾ Contact │  Header (sticky)
 ├──────────────────────────────┬────────────────────────────────┤
-│ Tuscan University Network    │        ·  map of Tuscany  ·     │  Hero
+│ Tuscany University Network   │        ·  map of Tuscany  ·     │  Hero
 │ in Economic History          │   Lucca•──•Florence, Fiesole    │
 │ mission…                     │   Pisa•     \                   │
 │ [About the network] [Events] │              •Siena             │
@@ -80,7 +80,7 @@ HOME (desktop)
 |---|---|---|---|
 | **BaseLayout** | `layouts/BaseLayout.astro` | `site.yml` | `<head>` (title, description, canonical, Open Graph, favicon), skip link, Header, `<main>`, Footer |
 | **Header** | `components/Header.astro` | `site.yml → nav` | Sticky, translucent. Desktop: drop-down menus that open on hover *and* keyboard focus; the current section is underlined in cinabro. Mobile: native `<details>` menu, no JavaScript |
-| **Logo** | `components/Logo.astro` | `site.yml → shortName, fullName` | Wordmark with the slash in ledger red; inverse variant for the footer |
+| **Logo** | `components/Logo.astro`, `components/LogoMark.astro` | `data/logo.json`, `site.yml → fullName` | The network's logo (letterforms traced from the original, dotted bar redrawn) beside the full name; cypress-green version on light pages, white version on the green footer. Downloadable SVGs in `public/brand/` (light, dark, original navy) |
 | **Hero** | `components/Hero.astro` | `site.yml → fullName, mission`; `institutions.yml` | Title, mission, two actions, a sentence counting institutions and cities (computed) |
 | **TuscanyMap** | `components/TuscanyMap.astro` | `institutions.yml` (lat/lon); `tuscany-map.json` | Real ISTAT boundary as one SVG path; graticule every 30′; nearby institutions merged into one marker; labels kept apart automatically with leader lines; markers link to the institutions list; full text alternative for screen readers |
 | **EventLedger** (event timeline) | `components/EventLedger.astro` | `content/events` | Rows with day/month/year column, red double rule, type tag, date range, time, place, speakers, summary; whole row clickable; `compact` variant for the homepage; empty state |

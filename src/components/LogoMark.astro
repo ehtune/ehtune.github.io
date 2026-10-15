@@ -1,0 +1,30 @@
+---
+// The EH/tune logo mark, drawn as inline SVG from src/data/logo.json
+// (letterforms traced from the original logo; the dotted bar redrawn geometrically).
+// Colourways:
+//   light — on the light pages: cypress letters and bar, dots in muted Tuscan pigments
+//   dark  — on the dark green footer: plaster-white letters and bar, deeper dots
+// Downloadable versions for slides and print are in public/brand/.
+import logo from '../data/logo.json';
+
+interface Props {
+  variant?: 'light' | 'dark';
+  class?: string;
+  title?: string;
+}
+const { variant = 'light', class: className, title = 'EH/tune' } = Astro.props;
+
+const palettes = {
+  light: { letters: 'var(--color-cipresso-900)', bar: 'var(--color-cipresso)', dots: ['#7fb3ae', '#e0583b', '#e3ad3c', '#a99abb', '#a4d3cc', '#8a97c9'] },
+  dark: { letters: 'var(--color-intonaco)', bar: '#eef0ec', dots: ['#6fa9a2', '#c8432b', '#d49a26', '#8c7aa3', '#7fbdb6', '#4f5d99'] },
+};
+const p = palettes[variant];
+const b = logo.bar;
+---
+<svg viewBox={logo.viewBox} class={className} role="img" aria-label={title} xmlns="http://www.w3.org/2000/svg">
+  <path fill={p.letters} fill-rule="evenodd" transform={`scale(${logo.lettersScale})`} d={logo.letters} />
+  <g transform={`translate(${b.cx} ${b.cy}) rotate(${b.angle})`}>
+    <rect x={-b.w / 2} y={-b.h / 2} width={b.w} height={b.h} fill={p.bar} />
+    {b.dots.map((y, i) => <circle cx="0" cy={y} r={b.dotR} fill={p.dots[i]} />)}
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 # EH/tune — website
 
-Website of **EH/tune, the Tuscan University Network in Economic History**.
+Website of **EH/tune, the Tuscany University Network in Economic History**.
 Live at **https://ehtune.github.io** · source at **https://github.com/ehtune/ehtune.github.io**
 
 The site is built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com), stored on GitHub and published automatically with GitHub Pages. All content lives in plain Markdown and YAML files, so updating it needs no programming.

@@ -1,18 +1,15 @@
 ---
-// The EH/tune wordmark. The slash is set in ledger red — it is part of the logotype.
+// Header/footer lockup: the EH/tune logo mark beside the network's full name.
+import LogoMark from './LogoMark.astro';
 import { site } from '../lib/data';
 interface Props { inverse?: boolean; size?: 'md' | 'lg' }
 const { inverse = false, size = 'md' } = Astro.props;
-const [left, right] = site.shortName.includes('/') ? site.shortName.split('/') : [site.shortName, ''];
 ---
-<span class:list={['inline-flex items-center gap-3', inverse ? 'text-intonaco' : 'text-ink']}>
-  <span
-    class:list={['font-display font-medium tracking-tight leading-none', size === 'lg' ? 'text-5xl' : 'text-[1.9rem]']}
-    aria-label={site.shortName}
-  >{left}{right && <span class:list={[inverse ? 'text-[#e8a597]' : 'text-cinabro', 'font-normal']}>/</span>}{right && <span class="italic">{right}</span>}</span>
+<span class="inline-flex items-center gap-3.5">
+  <LogoMark variant={inverse ? 'dark' : 'light'} class:list={['w-auto shrink-0', size === 'lg' ? 'h-[3.6rem]' : 'h-[3rem]']} title={site.shortName} />
   <span
     class:list={[
-      'hidden sm:block border-l pl-3 text-[0.78rem] leading-tight max-w-[13rem]',
+      'hidden sm:block border-l pl-3.5 text-[0.78rem] leading-tight max-w-[13rem]',
       inverse ? 'border-white/25 text-intonaco/80' : 'border-pietra-200 text-pietra',
     ]}
   >{site.fullName}</span>

@@ -1,7 +1,7 @@
 {
   "name": "ehtune-website",
   "version": "1.0.0",
-  "description": "Website of EH/tune, the Tuscan University Network in Economic History",
+  "description": "Website of EH/tune, the Tuscany University Network in Economic History",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
