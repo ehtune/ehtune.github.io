@@ -11,66 +11,100 @@
 #  To add someone: copy a block (from "- surname" to "url"), paste it anywhere, change it.
 #  To remove someone: delete their four lines.
 #
-#  PLACEHOLDERS: the names below are the Italian "John Doe" (Mario Rossi…). Replace them.
 # ─────────────────────────────────────────────────────────────────────────────
 
 members:
-  - surname: Rossi
-    firstName: Mario
-    institution: unisi
-    url: ""
-
-  - surname: Bianchi
-    firstName: Maria
-    institution: unifi
-    url: ""
-
-  - surname: Verdi
-    firstName: Luca
-    institution: unipi
-    url: ""
-
-  - surname: Neri
-    firstName: Giulia
-    institution: unifi
-    url: ""
-
-  - surname: Gialli
-    firstName: Paolo
-    institution: sns
-    url: ""
-
-  - surname: Viola
-    firstName: Anna
-    institution: unisi
-    url: ""
-
-  - surname: Azzurri
-    firstName: Franco
-    institution: unifi
-    url: ""
-
-  - surname: Marroni
-    firstName: Elena
+  - surname: "Nuvolari"
+    firstName: "Alessandro"
     institution: sssa
-    url: ""
+    url: "https://www.santannapisa.it/it/alessandro-nuvolari"
 
-  - surname: Grigi
-    firstName: Stefano
+  - surname: "Danna"
+    firstName: "Raffaele"
+    institution: sssa
+    url: "https://rafdanna.com/"
+
+  - surname: "Gabbuti"
+    firstName: "Giacomo"
+    institution: sssa
+    url: "https://www.santannapisa.it/it/giacomo-gabbuti"
+
+  - surname: "Brizzi"
+    firstName: "Alessandro"
+    institution: sssa
+    url: "https://www.santannapisa.it/it/alessandro-brizzi"
+
+  - surname: "Freschi"
+    firstName: "Giuliana"
+    institution: sssa
+    url: "https://www.santannapisa.it/it/giuliana-freschi"
+
+  - surname: "Van Besouw"
+    firstName: "Jip"
+    institution: sssa
+    url: "https://www.santannapisa.it/it/jip-van-besouw"
+
+  - surname: "Brioschi"
+    firstName: "Alessandro"
+    institution: sssa
+    url: "https://alessandrobrioschi.github.io/"
+
+  - surname: "Salamone"
+    firstName: "Tancredi"
+    institution: sssa
+    url: "https://www.santannapisa.it/en/tancredi-salamone"
+
+  - surname: "Cappelli"
+    firstName: "Gabriele"
     institution: unisi
-    url: ""
+    url: "https://gabrielecappelli.weebly.com/"
 
-  - surname: Celesti
-    firstName: Chiara
+  - surname: "Vasta"
+    firstName: "Michelangelo"
+    institution: unisi
+    url: "https://docenti-deps.unisi.it/michelangelovasta/"
+
+  - surname: "Ridolfi"
+    firstName: "Leonardo"
+    institution: unisi
+    url: "https://sites.google.com/site/leonardoridolfieh/"
+
+  - surname: "Martinez"
+    firstName: "Marco"
     institution: unipi
-    url: ""
+    url: "https://sites.google.com/view/marcomartinez/home"
 
-  - surname: Bruni
-    firstName: Marco
+  - surname: "Fresco"
+    firstName: "Nicola"
     institution: unisi
-    url: ""
+    url: "https://phdeconomics.unisi.it/nicola-fresco/"
 
-  - surname: Rosati
-    firstName: Sara
+  - surname: "Hastings Mela"
+    firstName: "Laura"
+    institution: unisi
+    url: "https://phdeconomics.unisi.it/laura-hastings-mela/"
+
+  - surname: "Abbaspourmani"
+    firstName: "Negar"
+    institution: unisi
+    url: "https://phdeconomics.unisi.it/negar-abbaspourmani/"
+
+  - surname: "Pinchera"
+    firstName: "Valeria"
+    institution: unipi
+    url: "https://www.unipi.it/ateneo/organizzazione/persone/valeria-pinchera-181/"
+
+  - surname: "Cerretano"
+    firstName: "Valerio"
     institution: unifi
-    url: ""
+    url: "https://cercachi.unifi.it/p-doc2-0-0-A-3f2c3630372f29.html"
+
+  - surname: "Chiaiese"
+    firstName: "Dario"
+    institution: unisi
+    url: "https://www.deps.unisi.it/it/dipartimento/personale/assegnisti/dario-chiaiese"
+
+  - surname: "Rappa"
+    firstName: "Edoardo"
+    institution: unisi
+    url: "https://scholar.google.com/citations?user=Z1DW3qMAAAAJ&hl=it"
