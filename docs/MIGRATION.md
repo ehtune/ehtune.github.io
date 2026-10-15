@@ -62,7 +62,7 @@ A domain of your own means the address never changes again, whoever hosts the fi
 ## Checklist after any move
 
 - [ ] Home, Members and an event page open and look right
-- [ ] Images and member photos appear
+- [ ] Images appear
 - [ ] Menu links stay inside the new address
 - [ ] `sitemap-index.xml` shows the new address
 - [ ] `repository:` in `src/data/site.yml` still points to the GitHub source

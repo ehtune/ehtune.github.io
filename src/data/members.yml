@@ -1,0 +1,76 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  MEMBERS — shown on the Members page in alphabetical order of surname.
+#  The order in this file does not matter: the site sorts the list itself.
+#
+#  Each member is one block of four lines:
+#   surname      e.g. De Luca   (used for the alphabetical order)
+#   firstName    e.g. Giovanni
+#   institution  one of: unifi | unipi | sns | sssa | unisi   (see institutions.yml)
+#   url          link to the person's institutional or personal page — leave "" if none
+#
+#  To add someone: copy a block (from "- surname" to "url"), paste it anywhere, change it.
+#  To remove someone: delete their four lines.
+#
+#  PLACEHOLDERS: the names below are the Italian "John Doe" (Mario Rossi…). Replace them.
+# ─────────────────────────────────────────────────────────────────────────────
+
+members:
+  - surname: Rossi
+    firstName: Mario
+    institution: unisi
+    url: ""
+
+  - surname: Bianchi
+    firstName: Maria
+    institution: unifi
+    url: ""
+
+  - surname: Verdi
+    firstName: Luca
+    institution: unipi
+    url: ""
+
+  - surname: Neri
+    firstName: Giulia
+    institution: unifi
+    url: ""
+
+  - surname: Gialli
+    firstName: Paolo
+    institution: sns
+    url: ""
+
+  - surname: Viola
+    firstName: Anna
+    institution: unisi
+    url: ""
+
+  - surname: Azzurri
+    firstName: Franco
+    institution: unifi
+    url: ""
+
+  - surname: Marroni
+    firstName: Elena
+    institution: sssa
+    url: ""
+
+  - surname: Grigi
+    firstName: Stefano
+    institution: unisi
+    url: ""
+
+  - surname: Celesti
+    firstName: Chiara
+    institution: unipi
+    url: ""
+
+  - surname: Bruni
+    firstName: Marco
+    institution: unisi
+    url: ""
+
+  - surname: Rosati
+    firstName: Sara
+    institution: unifi
+    url: ""

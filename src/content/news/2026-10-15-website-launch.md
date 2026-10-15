@@ -6,4 +6,4 @@ summary: Events, members and research from across the network, now gathered in o
 ---
 
 This site brings together the seminars, workshops and research of economic historians in Tuscany's
-universities. Members can send news, publications and events to the coordinators to have them listed here.
+universities. Members can send news, publications and events through the contact page to have them listed here.

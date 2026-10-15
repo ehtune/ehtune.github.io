@@ -1,36 +1,26 @@
 # ─────────────────────────────────────────────────────────────────────────────
-#  PARTICIPATING INSTITUTIONS
+#  PARTNER INSTITUTIONS
 #  Each block starting with "- id:" is one institution.
-#   id        short code, lowercase, no spaces. Members refer to it (institution: unisi).
-#   lat / lon position on the homepage map (copy from Google Maps: right-click → coordinates).
+#   id         short code, lowercase, no spaces. Members refer to it (institution: unisi).
+#   shortName  the abbreviation shown in the members list, filters and map.
+#   lat / lon  position on the homepage map (Google Maps: right-click → the two numbers).
 #  To add an institution: copy a whole block, paste it at the end, change the values.
-#  DRAFT: confirm which institutions formally take part before going live.
+#  Order here = order on the site (institutions are grouped by city).
 # ─────────────────────────────────────────────────────────────────────────────
 
 institutions:
-  - id: unisi
-    name: University of Siena
-    shortName: Siena
-    city: Siena
-    department: Department of Economics and Statistics
-    url: https://www.unisi.it
-    lat: 43.3186
-    lon: 11.3306
-
   - id: unifi
     name: University of Florence
-    shortName: Florence
+    shortName: UniFi
     city: Florence
-    department: Department of Economics and Management
     url: https://www.unifi.it
     lat: 43.7778
     lon: 11.2597
 
   - id: unipi
     name: University of Pisa
-    shortName: Pisa
+    shortName: UniPi
     city: Pisa
-    department: Department of Economics and Management
     url: https://www.unipi.it
     lat: 43.7167
     lon: 10.3966
@@ -43,34 +33,18 @@ institutions:
     lat: 43.7194
     lon: 10.4003
 
-  - id: santanna
+  - id: sssa
     name: Sant'Anna School of Advanced Studies
-    shortName: Sant'Anna
+    shortName: SSSA
     city: Pisa
     url: https://www.santannapisa.it
     lat: 43.7196
     lon: 10.4060
 
-  - id: imt
-    name: IMT School for Advanced Studies Lucca
-    shortName: IMT Lucca
-    city: Lucca
-    url: https://www.imtlucca.it
-    lat: 43.8429
-    lon: 10.5027
-
-  - id: eui
-    name: European University Institute
-    shortName: EUI
-    city: Fiesole
-    url: https://www.eui.eu
-    lat: 43.8057
-    lon: 11.2925
-
-  - id: unistrasi
-    name: University for Foreigners of Siena
-    shortName: Stranieri Siena
+  - id: unisi
+    name: University of Siena
+    shortName: UniSi
     city: Siena
-    url: https://www.unistrasi.it
-    lat: 43.3155
-    lon: 11.3260
+    url: https://www.unisi.it
+    lat: 43.3186
+    lon: 11.3306

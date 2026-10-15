@@ -20,12 +20,12 @@ ehtune.github.io/
 │   ├── content/                ← CONTENT EDITORS WORK HERE
 │   │   ├── events/             one .md file per seminar, workshop, conference
 │   │   ├── news/               one .md file per news item, opportunity or call
-│   │   ├── members/            one .md file per person
 │   │   └── projects/           one .md file per research track or project
 │   │                           (each folder has a _TEMPLATE.md to copy)
 │   ├── data/
 │   │   ├── site.yml            ← texts on every page: mission, history, menu, e-mail, address
-│   │   ├── institutions.yml    ← participating institutions (also placed on the map)
+│   │   ├── members.yml         ← list of members (sorted alphabetically by the site)
+│   │   ├── institutions.yml    ← partner institutions (also placed on the map)
 │   │   ├── publications.yml    ← list of publications
 │   │   └── tuscany-map.json    map outline (generated; do not edit)
 │   ├── components/             building blocks: Header, Hero, TuscanyMap, EventLedger, MemberDirectory…
@@ -34,7 +34,7 @@ ehtune.github.io/
 │   ├── styles/global.css       colours, fonts and shared styles
 │   └── content.config.ts       the fields each kind of content must have
 ├── public/                     files served as they are
-│   ├── images/members/         member photos
+│   ├── images/                 images used in news and events
 │   └── files/                  PDFs (programmes, calls)
 ├── docs/                       these guides
 ├── .github/workflows/

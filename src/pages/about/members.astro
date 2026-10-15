@@ -1,6 +1,6 @@
 ---
-// MEMBERS — participating institutions plus the directory of people.
-// To add a person: create a new file in src/content/members/ (copy _TEMPLATE.md).
+// MEMBERS — partner institutions, then all members in alphabetical order.
+// To add or remove a person, edit src/data/members.yml.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import MemberDirectory from '../../components/MemberDirectory.astro';
@@ -11,21 +11,24 @@ import { url } from '../../lib/utils';
 <BaseLayout title="Members" description={`Economic historians, researchers and doctoral students in the ${site.shortName} network.`}>
   <PageHeader
     title="Members"
-    intro={`The ${site.shortName} network brings together faculty, researchers and doctoral students in economic history from universities and research institutes across Tuscany.`}
+    intro={`The ${site.shortName} network brings together faculty, researchers and doctoral students in economic history at Tuscany's universities.`}
     crumbs={[{ label: 'About', href: '/about/' }, { label: 'Members', href: '/about/members/' }]}
   />
 
   <div class="container-page pt-16">
     <section id="institutions" class="mb-20 scroll-mt-28" aria-labelledby="institutions-title">
-      <h2 id="institutions-title" class="section-title">Participating institutions</h2>
+      <h2 id="institutions-title" class="section-title">Partner institutions</h2>
       <InstitutionList />
     </section>
 
-    <MemberDirectory />
+    <section id="directory" class="scroll-mt-28" aria-labelledby="directory-title">
+      <h2 id="directory-title" class="section-title">Directory</h2>
+      <MemberDirectory />
+    </section>
 
-    <aside class="mt-4 border-l-[3px] border-double border-cinabro bg-carta px-6 py-5 text-[0.98rem]">
+    <aside class="mt-12 border-l-[3px] border-double border-cinabro bg-carta px-6 py-5 text-[0.98rem]">
       <p>
-        Economic historians at a Tuscan university or research institute can join the network.
+        Economic historians at one of the partner institutions can join the network.
         <a href={url('/contact/')} class="link">Get in touch</a> to be listed here.
       </p>
     </aside>

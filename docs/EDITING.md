@@ -20,7 +20,8 @@ That's all. Photos and PDFs can be uploaded directly in the form.
 
 ## Way 2 — Directly on GitHub
 
-Each folder in `src/content/` contains a file called `_TEMPLATE.md` with instructions inside.
+Each folder in `src/content/` contains a file called `_TEMPLATE.md` with instructions inside;
+the files in `src/data/` explain themselves in the notes at the top.
 
 ### Add a news item
 
@@ -72,30 +73,28 @@ Abstract of the paper.
 The event appears under **Upcoming events** and on the homepage, and moves to **Past events**
 automatically the day after it ends. For a multi-day event, add `endDate: 2027-03-13`.
 
-### Add a member
+### Add or remove a member
 
-In `src/content/members/`, create `firstname-lastname.md`:
+All members are in one file, `src/data/members.yml`. The site shows them in alphabetical order of
+surname, so the order in the file does not matter.
 
-```markdown
----
-name: Anna Viola
-role: Associate Professor of Economic History
-group: Faculty
-institution: unisi
-interests:
-  - Prices and wages
-  - Early modern Tuscany
----
+1. Open `src/data/members.yml` and click the pencil ✎.
+2. Copy one block of four lines and paste it at the end:
 
-Short biography (optional).
+```yaml
+  - surname: De Luca
+    firstName: Giovanni
+    institution: unipi
+    url: https://www.unipi.it/people/giovanni-de-luca
 ```
 
-* `group` is one of: `Coordinator`, `Steering committee`, `Faculty`, `Researchers`, `PhD students`, `Affiliates`.
-* `institution` is a short id from `src/data/institutions.yml`: `unisi`, `unifi`, `unipi`, `sns`, `santanna`, `imt`, `eui`, `unistrasi`.
-* **Photo (optional):** upload a square JPG (at least 400 × 400 px) to `public/images/members/`
-  (*Add file → Upload files*), then add `photo: /images/members/anna-viola.jpg`.
-  Without a photo the site shows the person's initials.
-* To remove someone, open their file, click the **⋯** menu → **Delete file**.
+3. Change the values and click **Commit changes…** → **Commit changes**.
+
+* `institution` is one of: `unifi` (University of Florence), `unipi` (University of Pisa),
+  `sns` (Scuola Normale Superiore), `sssa` (Sant'Anna School of Advanced Studies), `unisi` (University of Siena).
+* `url` is the person's institutional or personal page. Write `url: ""` if there is none: the name is then shown without a link.
+* To remove someone, delete their four lines.
+* For many names at once, fill in the Excel template (`docs/members-template.xlsx`) and send it to whoever maintains the site.
 
 ### Add a research track or project
 
@@ -113,7 +112,8 @@ All in `src/data/site.yml`. Click the pencil ✎, edit the text after the colons
 ### Add an institution
 
 In `src/data/institutions.yml`, copy one block and change it. Find the latitude and longitude by
-right-clicking the building in Google Maps (the first number is `lat`, the second `lon`).
+right-clicking the building in Google Maps (the first number is `lat`, the second `lon`). `shortName` is the
+abbreviation used in the members filter and on the map (e.g. UniFi).
 The new institution appears on the homepage map automatically. If you use Pages CMS, also add
 its id to the `institutionIds` list at the top of `.pages.yml`.
 

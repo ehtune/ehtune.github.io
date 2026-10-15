@@ -6,8 +6,8 @@ coordinators:
   - Giulia Neri
   - Elena Marroni
 institutions:
-  - eui
-  - santanna
+  - unifi
+  - sssa
 summary: Industrial districts, innovation and regional growth in Italy and Europe since the nineteenth century.
 order: 5
 ---

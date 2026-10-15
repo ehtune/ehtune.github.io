@@ -6,6 +6,7 @@ import { z } from 'astro/zod';
 import siteRaw from '../data/site.yml?raw';
 import institutionsRaw from '../data/institutions.yml?raw';
 import publicationsRaw from '../data/publications.yml?raw';
+import membersRaw from '../data/members.yml?raw';
 
 function load<T extends z.ZodTypeAny>(file: string, raw: string, schema: T): z.infer<T> {
   let data: unknown;
@@ -93,3 +94,25 @@ export const publications = load(
       .transform((v) => v ?? []),
   }),
 ).publications.sort((a, b) => b.year - a.year);
+
+// Members: one alphabetical list (surname, then first name, Italian alphabetical rules).
+const memberSchema = z.object({
+  surname: z.string().min(1),
+  firstName: z.string().min(1),
+  institution: z.string(),
+  url: z.string().nullish().transform((v) => (v ? v.trim() : '')),
+});
+export type Member = z.infer<typeof memberSchema> & { name: string; inst: Institution };
+
+const collator = new Intl.Collator('it', { sensitivity: 'base' });
+export const members: Member[] = load(
+  'members.yml',
+  membersRaw,
+  z.object({ members: z.array(memberSchema).nullish().transform((v) => v ?? []) }),
+)
+  .members.map((m, i) => ({
+    ...m,
+    name: `${m.firstName} ${m.surname}`,
+    inst: institutionById(m.institution, `src/data/members.yml, member ${i + 1} (${m.firstName} ${m.surname})`)!,
+  }))
+  .sort((a, b) => collator.compare(a.surname, b.surname) || collator.compare(a.firstName, b.firstName));

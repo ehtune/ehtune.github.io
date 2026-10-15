@@ -14,7 +14,7 @@ components:
   institutionIds:
     type: select
     options:
-      values: [unisi, unifi, unipi, sns, santanna, imt, eui, unistrasi]
+      values: [unifi, unipi, sns, sssa, unisi]
   body:
     label: Text
     type: rich-text
@@ -79,35 +79,22 @@ content:
       - { name: deadline, label: Deadline (calls and opportunities), type: date, options: { format: yyyy-MM-dd } }
       - { name: body, component: body }
 
-  # ── Members ───────────────────────────────────────────────────────────────
+  # ── Members (one file, alphabetical on the site) ──────────────────────────
   - name: members
     label: Members
-    type: collection
-    path: src/content/members
-    format: yaml-frontmatter
-    exclude: [_TEMPLATE.md]
-    filename: '{primary}.md'
-    view:
-      fields: [name, group, institution]
-      primary: name
-      sort: [name, group]
-      default: { sort: name, order: asc }
+    type: file
+    path: src/data/members.yml
+    format: yaml
     fields:
-      - { name: name, label: Full name, type: string, required: true }
-      - { name: role, label: Position (e.g. Associate Professor of Economic History), type: string, required: true }
-      - name: group
-        label: Group
-        type: select
-        required: true
-        options: { values: [Coordinator, Steering committee, Faculty, Researchers, PhD students, Affiliates] }
-      - { name: institution, label: Institution, component: institutionIds, required: true }
-      - { name: department, label: Department, type: string }
-      - { name: photo, label: Photo (square), type: image, options: { input: public/images/members, output: /images/members } }
-      - { name: email, label: E-mail, type: string }
-      - { name: website, label: Personal web page, type: string }
-      - { name: interests, label: Research interests, type: string, list: true }
-      - { name: order, label: Order within group (smaller first), type: number, default: 100 }
-      - { name: body, label: Short biography, type: rich-text, options: { format: markdown } }
+      - name: members
+        label: Members (the site sorts them by surname)
+        type: object
+        list: true
+        fields:
+          - { name: surname, label: Surname, type: string, required: true }
+          - { name: firstName, label: First name, type: string, required: true }
+          - { name: institution, label: Institution, component: institutionIds, required: true }
+          - { name: url, label: Personal page (link), type: string }
 
   # ── Research tracks and projects ──────────────────────────────────────────
   - name: projects

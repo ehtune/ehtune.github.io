@@ -97,12 +97,11 @@ night so that finished events move to "Past events" by themselves.
 
 ## Step 7 — Replace the draft content
 
-All sample people use Italian placeholder names (Mario Rossi, Maria Bianchi…) and sample events and
+All sample members use Italian placeholder names (Mario Rossi, Maria Bianchi…) and sample events and
 projects are marked `SAMPLE` or `PLACEHOLDER` in their files. Before announcing the site:
 
 - [ ] `src/data/site.yml`: mission, history, goals, **e-mail** (currently `ehtune@example.org`), address, supporters
-- [ ] `src/data/institutions.yml`: confirm which institutions take part
-- [ ] `src/content/members/`: delete the placeholders, add the real members
+- [ ] `src/data/members.yml`: replace the placeholder names with the real members
 - [ ] `src/content/events/`, `news/`, `projects/`: delete or rewrite the samples
 - [ ] `src/data/publications.yml`: real publications
 - [ ] `public/og-image.png`: the picture shown when the site is shared on social media

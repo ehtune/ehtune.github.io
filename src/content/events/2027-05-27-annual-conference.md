@@ -5,7 +5,7 @@ type: Conference
 date: 2027-05-27
 endDate: 2027-05-28
 location: Florence
-institution: eui
+institution: unifi
 summary: Two days of papers from members and invited speakers across all fields of economic history.
 ---
 

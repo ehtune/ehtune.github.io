@@ -17,8 +17,8 @@ const n = (x: number) => words[x] ?? String(x);
         <a href={url('/events/')} class="btn btn-secondary">Upcoming events</a>
       </div>
       <p class="mt-10 max-w-[48ch] border-t border-pietra-200 pt-4 text-[0.95rem] text-pietra">
-        {n(institutions.length).replace(/^./, (c) => c.toUpperCase())} universities and research institutes in {n(cities)} Tuscan cities.
-        <a href={url('/about/members/')} class="link ml-1">Meet the members</a>
+        {n(institutions.length).replace(/^./, (c) => c.toUpperCase())} partner institutions in {n(cities)} Tuscan cities.
+        <a href={url('/about/members/')} class="link ml-1 whitespace-nowrap">Meet the members</a>
       </p>
     </div>
     <div class="mx-auto w-full max-w-[34rem] lg:max-w-none">

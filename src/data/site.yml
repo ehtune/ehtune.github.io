@@ -72,11 +72,9 @@ nav:
     children:
       - label: Mission and history
         href: /about/
-      - label: Steering committee
-        href: /about/members/#steering-committee
-      - label: Members directory
+      - label: Members
         href: /about/members/
-      - label: Participating institutions
+      - label: Partner institutions
         href: /about/members/#institutions
       - label: Supporters
         href: /about/#supporters

@@ -1,5 +1,4 @@
-// Defines the four kinds of content that editors add as Markdown files:
-//   src/content/members/   one file per person
+// Defines the three kinds of content that editors add as Markdown files:
 //   src/content/events/    one file per seminar, workshop or conference
 //   src/content/news/      one file per news item
 //   src/content/projects/  one file per research track or project
@@ -11,22 +10,6 @@ import { z } from 'astro/zod';
 // Optional fields may be left empty ("" or nothing) — the web editor sometimes writes them that way.
 const optionalText = z.string().nullish().transform((v) => v || undefined);
 const optionalDate = z.preprocess((v) => (v === '' || v === null ? undefined : v), z.coerce.date().optional());
-
-const members = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/members' }),
-  schema: z.object({
-    name: z.string(),
-    role: z.string(), // e.g. "Professor of Economic History"
-    group: z.enum(['Coordinator', 'Steering committee', 'Faculty', 'Researchers', 'PhD students', 'Affiliates']),
-    institution: z.string(), // an id from src/data/institutions.yml
-    department: optionalText,
-    photo: optionalText, // e.g. /images/members/maria-bianchi.jpg
-    email: optionalText,
-    website: optionalText,
-    interests: z.array(z.string()).nullish().transform((v) => v ?? []),
-    order: z.number().nullish().transform((v) => v ?? 100), // smaller numbers appear first within a group
-  }),
-});
 
 const events = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/events' }),
@@ -72,4 +55,4 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { members, events, news, projects };
+export const collections = { events, news, projects };

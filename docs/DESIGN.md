@@ -15,8 +15,7 @@ network drawn between its institutions — the network made literal. It is the o
 site (the lines draw themselves once, and not at all for visitors who prefer reduced motion).
 
 The structure follows the All-UC Group in Economic History site: name and tagline, *Our history*,
-*Upcoming events* beside *In the news*; About with Director (here: Coordinator), Steering Committee,
-Affiliates and Support Recognition (here: Supporters); Events with past events; Projects; Opportunities; Contact.
+*Upcoming events* beside *In the news*; About with members, partner institutions and Support Recognition (here: Supporters); Events with past events; Projects; Opportunities; Contact.
 
 ## Colour
 
@@ -87,8 +86,7 @@ HOME (desktop)
 | **EventLedger** (event timeline) | `components/EventLedger.astro` | `content/events` | Rows with day/month/year column, red double rule, type tag, date range, time, place, speakers, summary; whole row clickable; `compact` variant for the homepage; empty state |
 | **NewsList** | `components/NewsList.astro` | `content/news` | Date, category tag (hidden for plain News), headline, summary, deadline in red |
 | **ProjectList** | `components/ProjectList.astro` | `content/projects` | Title and summary on the left; status, period, leaders and institutions on the right |
-| **MemberDirectory** (member grid) | `components/MemberDirectory.astro` | `content/members` | Groups in fixed order (Coordinator → Affiliates) with counts and anchors; sorted by `order` then surname (Italian collation); filter buttons by institution and live search, added only when JavaScript runs |
-| **MemberEntry** | `components/MemberEntry.astro` | one member file | Photo or Bodoni initials; name, position, institution link, department, interests, e-mail/website; biography in a disclosure (shown in full for the coordinator) |
+| **MemberDirectory** (member list) | `components/MemberDirectory.astro` | `data/members.yml` | All members in one alphabetical list (surname, Italian collation), grouped under red index letters like a register; name links to the personal page; institution below; letter index, filter by institution and live search added only when JavaScript runs |
 | **InstitutionList** | `components/InstitutionList.astro` | `institutions.yml` | Grouped by city, city names in Bodoni italic |
 | **PageHeader** | `components/PageHeader.astro` | page props | Breadcrumb, title, introduction, optional slot for sub-navigation |
 | **Footer** | `components/Footer.astro` | `site.yml` | Wordmark, tagline, address, e-mail, menu columns, social links, "Edit this site", map credit, last-updated date |
