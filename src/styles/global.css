@@ -1,15 +1,13 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    EH/tune design system
-   Palette drawn from Florentine architecture and Tuscan account books:
-   white plaster walls (intonaco), grey sandstone mouldings (pietra serena),
-   cypress green, and the vermilion ink (cinabro) used to rule and head ledgers.
+   Colours come from the network's logo: the deep blue of its background, a bright
+   ledger red, and the six pigments of the dotted bar. No green anywhere.
    ───────────────────────────────────────────────────────────────────────────── */
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 
-/* Fonts are bundled with the site (no calls to Google) — GDPR-friendly and works on any server. */
-@import '@fontsource-variable/bodoni-moda/opsz.css';
-@import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+/* Fonts are bundled with the site (no calls to Google) — GDPR-friendly and works on any server.
+   One family throughout, the same open sans-serif as the logo's lettering. */
 @import '@fontsource/titillium-web/300.css';
 @import '@fontsource/titillium-web/400.css';
 @import '@fontsource/titillium-web/400-italic.css';
@@ -17,23 +15,39 @@
 @import '@fontsource/titillium-web/700.css';
 
 @theme {
-  --color-intonaco: #f7f7f4; /* page background */
+  --color-intonaco: #f6f8fb; /* page background, a breath of blue */
   --color-carta: #ffffff; /* raised surfaces */
-  --color-pietra: #5c676c; /* secondary text */
-  --color-pietra-200: #d5dadb; /* hairlines */
-  --color-pietra-100: #e9ecec; /* tinted panels */
-  --color-ink: #1f282b; /* body text */
-  --color-cipresso: #22443a; /* primary: header accents, buttons, footer */
-  --color-cipresso-900: #16302a;
-  --color-cipresso-100: #e3ebe7;
-  --color-cinabro: #a3311e; /* ledger red: dates, rules, marks — use sparingly */
-  --color-cinabro-50: #f7ebe8;
+  --color-pietra: #56616e; /* secondary text */
+  --color-pietra-200: #d6dde6; /* hairlines */
+  --color-pietra-100: #ebf0f5; /* tinted panels */
+  --color-ink: #16212e; /* body text */
 
-  --font-display: 'Bodoni Moda Variable', 'Bodoni 72', 'Didot', Georgia, serif;
+  --color-blu: #17375e; /* logo blue: header, footer, buttons, links */
+  --color-blu-900: #0e2441;
+  --color-blu-700: #24507f;
+  --color-blu-500: #3f72a8;
+  --color-blu-300: #9db8d6;
+  --color-blu-100: #e2eaf4;
+  --color-blu-50: #f0f4fa;
+
+  --color-cinabro: #c4321e; /* ledger red: titles, dates, map markers */
+  --color-cinabro-50: #fcece9;
+  --color-corallo: #f94b2c; /* the logo's bright red, for use on blue */
+
+  /* The six dots of the logo bar, top to bottom. */
+  --color-dot-1: #8ec5cc;
+  --color-dot-2: #f94b2c;
+  --color-dot-3: #f5be18;
+  --color-dot-4: #9a8aae;
+  --color-dot-5: #8bd1d9;
+  --color-dot-6: #535f9e;
+  --color-bar: #ece9f2;
+
+  --font-display: 'Titillium Web', 'Segoe UI', system-ui, sans-serif;
   --font-sans: 'Titillium Web', 'Segoe UI', system-ui, sans-serif;
 
-  --text-display: clamp(2.5rem, 1.5rem + 2.9vw, 4rem);
-  --text-display--line-height: 1.04;
+  --text-display: clamp(2.4rem, 1.5rem + 2.6vw, 3.75rem);
+  --text-display--line-height: 1.05;
 }
 
 @layer base {
@@ -49,9 +63,10 @@
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 500;
-    line-height: 1.15;
-    letter-spacing: -0.005em;
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: var(--color-blu);
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
@@ -61,7 +76,8 @@
     outline-offset: 3px;
     border-radius: 2px;
   }
-  ::selection { background: var(--color-cipresso-100); }
+  ::selection { background: var(--color-blu-100); }
+  body { background: var(--color-intonaco); }
 }
 
 @layer components {
@@ -75,13 +91,41 @@
     .container-page { padding-inline: 2.5rem; }
   }
 
-  /* Section heading: Bodoni title sitting on a pietra-serena rule. */
+  /* Section heading: bold blue title over a short strip of the logo's six dots. */
   .section-title {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.4rem);
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--color-pietra-200);
+    font-size: clamp(1.7rem, 1.35rem + 1.1vw, 2.3rem);
+    padding-bottom: 1.1rem;
     margin-bottom: 1.75rem;
+    position: relative;
+    border-bottom: 1px solid var(--color-pietra-200);
+  }
+  .section-title::after,
+  .dots-rule::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 78px;
+    height: 8px;
+    background:
+      radial-gradient(circle, var(--color-dot-1) 3.5px, transparent 4px) 0 0 / 13px 8px no-repeat,
+      radial-gradient(circle, var(--color-dot-2) 3.5px, transparent 4px) 13px 0 / 13px 8px no-repeat,
+      radial-gradient(circle, var(--color-dot-3) 3.5px, transparent 4px) 26px 0 / 13px 8px no-repeat,
+      radial-gradient(circle, var(--color-dot-4) 3.5px, transparent 4px) 39px 0 / 13px 8px no-repeat,
+      radial-gradient(circle, var(--color-dot-5) 3.5px, transparent 4px) 52px 0 / 13px 8px no-repeat,
+      radial-gradient(circle, var(--color-dot-6) 3.5px, transparent 4px) 65px 0 / 13px 8px no-repeat,
+      var(--color-intonaco);
+  }
+  .bg-carta .section-title::after, .bg-carta.section-title::after { background-color: var(--color-carta); }
+  .dots-rule { position: relative; }
+
+  /* The logo's six colours as a band (footer top edge, page headers). */
+  .dots-band {
+    height: 6px;
+    background: linear-gradient(90deg,
+      var(--color-dot-1) 0 16.66%, var(--color-dot-2) 0 33.33%, var(--color-dot-3) 0 50%,
+      var(--color-dot-4) 0 66.66%, var(--color-dot-5) 0 83.33%, var(--color-dot-6) 0);
   }
 
   .btn {
@@ -92,20 +136,22 @@
     font-weight: 600;
     font-size: 0.95rem;
     letter-spacing: 0.01em;
-    border: 1px solid var(--color-cipresso);
+    border: 1px solid var(--color-blu);
     border-radius: 2px;
     transition: background-color 0.15s, color 0.15s;
   }
-  .btn-primary { background: var(--color-cipresso); color: var(--color-intonaco); }
-  .btn-primary:hover { background: var(--color-cipresso-900); }
-  .btn-secondary { color: var(--color-cipresso); background: transparent; }
-  .btn-secondary:hover { background: var(--color-cipresso-100); }
+  .btn-primary { background: var(--color-blu); color: #fff; }
+  .btn-primary:hover { background: var(--color-blu-900); }
+  .btn-red { background: var(--color-cinabro); border-color: var(--color-cinabro); color: #fff; }
+  .btn-red:hover { background: #a42614; border-color: #a42614; }
+  .btn-secondary { color: var(--color-blu); background: transparent; }
+  .btn-secondary:hover { background: var(--color-blu-100); }
 
   .link {
-    color: var(--color-cipresso);
+    color: var(--color-blu);
     font-weight: 600;
     text-decoration: underline;
-    text-decoration-color: color-mix(in srgb, var(--color-cipresso) 35%, transparent);
+    text-decoration-color: color-mix(in srgb, var(--color-blu) 35%, transparent);
   }
   .link:hover { text-decoration-color: currentColor; }
 
@@ -114,8 +160,8 @@
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 600;
-    color: var(--color-cipresso);
-    background: var(--color-cipresso-100);
+    color: var(--color-blu);
+    background: var(--color-blu-100);
     padding: 0.05rem 0.5rem;
     border-radius: 2px;
   }
@@ -124,8 +170,8 @@
   .prose-ehtune {
     @apply prose max-w-[68ch];
     --tw-prose-body: var(--color-ink);
-    --tw-prose-headings: var(--color-ink);
-    --tw-prose-links: var(--color-cipresso);
+    --tw-prose-headings: var(--color-blu);
+    --tw-prose-links: var(--color-blu);
     --tw-prose-bold: var(--color-ink);
     --tw-prose-bullets: var(--color-cinabro);
     --tw-prose-counters: var(--color-cinabro);
@@ -134,5 +180,5 @@
     --tw-prose-hr: var(--color-pietra-200);
     font-size: 1.0625rem;
   }
-  .prose-ehtune :where(h2, h3) { font-weight: 500; }
+  .prose-ehtune :where(h2, h3) { font-weight: 700; }
 }

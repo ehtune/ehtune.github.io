@@ -1,36 +1,18 @@
 ---
-// MEMBERS — partner institutions, then all members in alphabetical order.
-// To add or remove a person, edit src/data/members.yml.
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import MemberDirectory from '../../components/MemberDirectory.astro';
-import InstitutionList from '../../components/InstitutionList.astro';
-import { site } from '../../lib/data';
+// The members list moved to /members/ (October 2026). This page forwards old links there.
 import { url } from '../../lib/utils';
+const to = url('/members/');
+const inst = url('/about/institutions/');
 ---
-<BaseLayout title="Members" description={`Economic historians, researchers and doctoral students in the ${site.shortName} network.`}>
-  <PageHeader
-    title="Members"
-    intro={`The ${site.shortName} network brings together faculty, researchers and doctoral students in economic history at Tuscany's universities.`}
-    crumbs={[{ label: 'About', href: '/about/' }, { label: 'Members', href: '/about/members/' }]}
-  />
-
-  <div class="container-page pt-16">
-    <section id="institutions" class="mb-20 scroll-mt-28" aria-labelledby="institutions-title">
-      <h2 id="institutions-title" class="section-title">Partner institutions</h2>
-      <InstitutionList />
-    </section>
-
-    <section id="directory" class="scroll-mt-28" aria-labelledby="directory-title">
-      <h2 id="directory-title" class="section-title">Directory</h2>
-      <MemberDirectory />
-    </section>
-
-    <aside class="mt-12 border-l-[3px] border-double border-cinabro bg-carta px-6 py-5 text-[0.98rem]">
-      <p>
-        Economic historians at one of the partner institutions can join the network.
-        <a href={url('/contact/')} class="link">Get in touch</a> to be listed here.
-      </p>
-    </aside>
-  </div>
-</BaseLayout>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Members moved</title>
+    <meta name="robots" content="noindex" />
+    <script is:inline define:vars={{ inst }}>if (location.hash === '#institutions') location.replace(inst);</script>
+    <meta http-equiv="refresh" content={`0; url=${to}`} />
+    <link rel="canonical" href={to} />
+  </head>
+  <body><p>The members list has moved: <a href={to}>{to}</a></p></body>
+</html>

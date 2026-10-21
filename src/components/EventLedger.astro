@@ -22,7 +22,7 @@ const { events, compact = false, empty = 'No events are scheduled at the moment.
       return (
         <li class="ledger-row group relative grid grid-cols-[4.25rem_1fr] border-b border-pietra-200 sm:grid-cols-[5.5rem_1fr]">
           <time datetime={fmt.iso(d.date)} class="flex flex-col items-center justify-start py-5 text-center leading-none">
-            <span class="font-display text-[2.4rem] font-medium text-cinabro">{fmt.day(d.date)}</span>
+            <span class="text-[2.4rem] font-bold text-cinabro">{fmt.day(d.date)}</span>
             <span class="mt-1.5 text-[0.85rem] font-semibold text-ink">{fmt.month(d.date)}</span>
             <span class="mt-0.5 text-[0.8rem] text-pietra">{fmt.year(d.date)}</span>
           </time>
@@ -34,7 +34,7 @@ const { events, compact = false, empty = 'No events are scheduled at the moment.
               {d.time && <span>{d.time}</span>}
             </p>
             <h3 class:list={['mt-2 font-display leading-snug', compact ? 'text-xl' : 'text-2xl']}>
-              <a href={url(`/events/${e.id}/`)} class="after:absolute after:inset-0 group-hover:text-cipresso">{d.title}</a>
+              <a href={url(`/events/${e.id}/`)} class="after:absolute after:inset-0 group-hover:text-blu">{d.title}</a>
             </h3>
             <p class="mt-1.5 text-[0.95rem] text-pietra">
               {d.location}{inst && !d.location.includes(inst.city) ? `, ${inst.name}` : ''}

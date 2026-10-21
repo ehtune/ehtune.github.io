@@ -1,18 +1,47 @@
 ---
-// Participating institutions, grouped by city.
-import { institutions } from '../lib/data';
-const cities = [...new Set(institutions.map((i) => i.city))];
+// Partner institutions as cards, one per institution, in the order of src/data/institutions.yml.
+// Each card shows the city, the name, how many members the network has there, and links.
+import { institutions, members } from '../lib/data';
+import { url } from '../lib/utils';
+interface Props { detailed?: boolean }
+const { detailed = false } = Astro.props;
+const count = (id: string) => members.filter((m) => m.institution === id).length;
+// Card accents cycle through the logo's blue, the ledger red and the bar's indigo dot.
+const accents = ['var(--color-blu)', 'var(--color-cinabro)', 'var(--color-dot-6)', 'var(--color-blu-500)', 'var(--color-corallo)'];
 ---
-<dl class="grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-  {cities.map((city) => (
-    <div class="border-t border-pietra-200 py-5">
-      <dt class="font-display text-[1.4rem] italic text-ink">{city}</dt>
-      {institutions.filter((i) => i.city === city).map((i) => (
-        <dd class="mt-2">
-          {i.url ? <a href={i.url} class="font-semibold text-cipresso hover:underline">{i.name}</a> : <span class="font-semibold">{i.name}</span>}
-          {i.department && <span class="block text-[0.9rem] text-pietra">{i.department}</span>}
-        </dd>
-      ))}
-    </div>
-  ))}
-</dl>
+<ul class:list={['grid gap-5 sm:grid-cols-2', detailed ? 'lg:grid-cols-3' : 'lg:grid-cols-5']}>
+  {institutions.map((i, k) => {
+    const n = count(i.id);
+    return (
+      <li class="inst-card group relative flex flex-col border border-pietra-200 bg-carta p-5 pt-6 transition-shadow hover:shadow-[0_14px_30px_-18px_rgb(14_36_65/0.45)]" style={`--accent:${accents[k % accents.length]}`}>
+        <p class="text-[0.8rem] font-bold uppercase tracking-[0.12em] text-cinabro">{i.city}</p>
+        <h3 class="mt-1.5 text-[1.18rem] leading-snug">
+          {i.url ? <a href={i.url} class="hover:underline">{i.name}</a> : i.name}
+        </h3>
+        {i.department && <p class="mt-1 text-[0.9rem] text-pietra">{i.department}</p>}
+        {n > 0 ? (
+          <p class="mt-auto flex items-baseline gap-2 pt-5">
+            <span class="text-[2rem] font-bold leading-none text-blu">{n}</span>
+            <span class="text-[0.9rem] text-pietra">{n === 1 ? 'member' : 'members'}</span>
+          </p>
+        ) : <p class="mt-auto pt-5" />}
+        {detailed && (
+          <p class="mt-4 flex flex-wrap gap-x-5 gap-y-1 border-t border-pietra-200 pt-3 text-[0.93rem]">
+            {n > 0 && <a href={url(`/members/?institution=${i.id}`)} class="link">See members</a>}
+            {i.url && <a href={i.url} class="link">Website</a>}
+          </p>
+        )}
+      </li>
+    );
+  })}
+</ul>
+
+<style>
+  .inst-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px -1px auto -1px;
+    height: 5px;
+    background: var(--accent);
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+// ABOUT — Supporters. The list is "supporters" in src/data/site.yml.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { site } from '../../lib/data';
+import { url } from '../../lib/utils';
+---
+<BaseLayout title="Supporters" description={`Institutions that support the ${site.shortName} network.`}>
+  <PageHeader
+    title="Supporters"
+    intro="We gratefully acknowledge the institutions that support the network's activities."
+    crumbs={[{ label: 'About', href: '/about/' }, { label: 'Supporters', href: '/about/supporters/' }]}
+  />
+
+  <div class="container-page py-16">
+    {site.supporters.length > 0 ? (
+      <ul class="grid gap-5 md:grid-cols-2">
+        {site.supporters.map((s) => (
+          <li class="relative border border-pietra-200 border-l-[5px] border-l-cinabro bg-carta px-6 py-6">
+            <p class="text-[1.25rem] font-bold leading-snug text-blu">
+              {s.url ? <a href={s.url} class="after:absolute after:inset-0 hover:underline">{s.name}</a> : s.name}
+            </p>
+            {s.url && <p class="mt-1 text-[0.93rem] text-pietra">{s.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}</p>}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="text-pietra">No supporters are listed yet.</p>
+    )}
+    <p class="mt-12 max-w-[60ch] border-l-4 border-blu bg-blu-50 px-6 py-5">
+      Would your institution like to support the network's seminars and workshops?
+      <a href={url('/contact/')} class="link">Get in touch</a>.
+    </p>
+  </div>
+</BaseLayout>

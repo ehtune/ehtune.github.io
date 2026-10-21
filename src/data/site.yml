@@ -14,7 +14,7 @@ description: >-
   EH/tune connects the economic historians of Tuscany's universities and research
   institutes through shared seminars, conferences, doctoral training and research projects.
 
-# HOMEPAGE — mission (short) and history (a few paragraphs, separated by a blank line).
+# HOMEPAGE and ABOUT → MISSION AND HISTORY — mission (short) and history (a few paragraphs, separated by a blank line).
 mission: >-
   EH/tune brings together the economic historians working in Tuscany's universities and
   research institutes. We organise seminars, workshops and an annual conference, support
@@ -30,6 +30,7 @@ history: |
   meeting place for faculty and doctoral students across campuses, and a platform for research
   projects too large for any single department.
 
+# ABOUT → WHAT WE DO — one block per activity.
 goals:
   - title: Share research
     text: A common calendar of seminars and workshops, so that work presented in one city reaches colleagues in all the others.
@@ -41,7 +42,7 @@ goals:
     text: Visiting speakers, an annual conference and links with economic history associations in Italy and abroad.
 
 # CONTACT
-email: michelangelo.vasta@unisi.it
+email: vasta@unisi.it
 address:
   - Department of Economics and Statistics
   - University of Siena
@@ -58,7 +59,7 @@ social:
   - label: GitHub
     url: https://github.com/ehtune
 
-# Supporters and partners, listed on the About page (like "Support Recognition" on the All-UC site).
+# Supporters, listed on the About → Supporters page (like "Support Recognition" on the All-UC site).
 supporters:
   - name: Department of Economics and Statistics, University of Siena
     url: https://www.deps.unisi.it
@@ -78,12 +79,14 @@ nav:
     children:
       - label: Mission and history
         href: /about/
-      - label: Members
-        href: /about/members/
+      - label: What we do
+        href: /about/what-we-do/
       - label: Partner institutions
-        href: /about/members/#institutions
+        href: /about/institutions/
       - label: Supporters
-        href: /about/#supporters
+        href: /about/supporters/
+  - label: Members
+    href: /members/
   - label: Research & Projects
     href: /research/
     children:

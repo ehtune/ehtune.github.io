@@ -1,60 +1,45 @@
 ---
+// ABOUT — Mission and history. The other About pages (What we do, Partner institutions,
+// Supporters) each have their own page and menu entry. Texts live in src/data/site.yml.
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import { site } from '../../lib/data';
 import { url } from '../../lib/utils';
 const historyParas = site.history.trim().split(/\n\s*\n/);
+const next = [
+  { href: '/about/what-we-do/', title: 'What we do', text: 'Seminars, workshops, doctoral training and joint research.', accent: 'var(--color-cinabro)' },
+  { href: '/members/', title: 'Members', text: 'The economic historians who make up the network.', accent: 'var(--color-blu)' },
+  { href: '/about/institutions/', title: 'Partner institutions', text: 'The universities and schools behind the network.', accent: 'var(--color-dot-6)' },
+  ...(site.supporters.length ? [{ href: '/about/supporters/', title: 'Supporters', text: 'The institutions that support our activities.', accent: 'var(--color-corallo)' }] : []),
+];
 ---
-<BaseLayout title="About" description={site.mission}>
-  <PageHeader title="About the network" intro={site.tagline} crumbs={[{ label: 'About', href: '/about/' }]} />
+<BaseLayout title="Mission and history" description={site.mission}>
+  <PageHeader title="Mission and history" intro={site.tagline} crumbs={[{ label: 'About', href: '/about/' }]} />
 
   <div class="container-page">
     <section class="grid gap-10 py-16 lg:grid-cols-12" aria-labelledby="mission">
-      <h2 id="mission" class="text-[2.2rem] lg:col-span-4">Mission</h2>
+      <h2 id="mission" class="dots-rule pb-4 text-[2.2rem] lg:col-span-4 lg:self-start">Mission</h2>
       <p class="text-[1.2rem] leading-relaxed lg:col-span-7">{site.mission}</p>
     </section>
 
     <section class="grid gap-10 border-t border-pietra-200 py-16 lg:grid-cols-12" aria-labelledby="history">
-      <h2 id="history" class="text-[2.2rem] lg:col-span-4">Our history</h2>
+      <h2 id="history" class="dots-rule pb-4 text-[2.2rem] lg:col-span-4 lg:self-start">Our history</h2>
       <div class="space-y-5 text-[1.08rem] leading-[1.75] lg:col-span-7">{historyParas.map((p) => <p>{p}</p>)}</div>
     </section>
-
-    <section class="border-t border-pietra-200 py-16" aria-labelledby="goals">
-      <h2 id="goals" class="mb-10 text-[2.2rem]">What we do</h2>
-      <dl class="grid gap-x-12 gap-y-10 md:grid-cols-2">
-        {site.goals.map((g) => (
-          <div class="border-l-[3px] border-double border-cinabro pl-6">
-            <dt class="font-display text-[1.5rem] leading-snug">{g.title}</dt>
-            <dd class="mt-2 max-w-[52ch] leading-relaxed text-ink/85">{g.text}</dd>
-          </div>
-        ))}
-      </dl>
-    </section>
-
-    <section class="grid gap-10 border-t border-pietra-200 py-16 lg:grid-cols-12" aria-labelledby="people">
-      <h2 id="people" class="text-[2.2rem] lg:col-span-4">People</h2>
-      <div class="lg:col-span-7">
-        <p class="text-[1.08rem] leading-relaxed">
-          The network's members are faculty, researchers and doctoral students working on economic history
-          at the partner institutions in Florence, Pisa and Siena.
-        </p>
-        <p class="mt-6 flex flex-wrap gap-3">
-          <a href={url('/about/members/')} class="btn btn-primary">Members</a>
-          <a href={url('/about/members/#institutions')} class="btn btn-secondary">Partner institutions</a>
-        </p>
-      </div>
-    </section>
-
-    {site.supporters.length > 0 && (
-      <section id="supporters" class="grid scroll-mt-28 gap-10 border-t border-pietra-200 py-16 lg:grid-cols-12" aria-labelledby="supporters-title">
-        <h2 id="supporters-title" class="text-[2.2rem] lg:col-span-4">Supporters</h2>
-        <div class="lg:col-span-7">
-          <p class="mb-5 leading-relaxed text-pietra">We gratefully acknowledge the institutions that support the network's activities.</p>
-          <ul class="space-y-2 text-[1.05rem]">
-            {site.supporters.map((s) => <li>{s.url ? <a href={s.url} class="link">{s.name}</a> : s.name}</li>)}
-          </ul>
-        </div>
-      </section>
-    )}
   </div>
+
+  <section class="border-t border-blu-100 bg-blu-50 py-16" aria-labelledby="more-title">
+    <div class="container-page">
+      <h2 id="more-title" class="mb-8 text-[1.6rem]">More about the network</h2>
+      <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {next.map((n) => (
+          <li class="relative border border-pietra-200 bg-carta p-6 transition-shadow hover:shadow-[0_14px_30px_-18px_rgb(14_36_65/0.45)]" style={`border-top:5px solid ${n.accent}`}>
+            <h3 class="text-[1.3rem]"><a href={url(n.href)} class="after:absolute after:inset-0 hover:underline">{n.title}</a></h3>
+            <p class="mt-2 text-[0.97rem] text-ink/80">{n.text}</p>
+            <span class="mt-4 inline-block font-semibold text-cinabro" aria-hidden="true">→</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 </BaseLayout>

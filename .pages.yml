@@ -175,7 +175,7 @@ content:
       - { name: mission, label: Mission (homepage), type: text }
       - { name: history, label: Our history (homepage and About), type: text }
       - name: goals
-        label: What we do (About page)
+        label: What we do (About → What we do page)
         type: object
         list: true
         fields:
@@ -197,7 +197,7 @@ content:
           - { name: label, type: string }
           - { name: url, type: string }
       - name: supporters
-        label: Supporters (About page)
+        label: Supporters (About → Supporters page)
         type: object
         list: true
         fields:

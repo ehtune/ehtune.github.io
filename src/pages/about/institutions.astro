@@ -1,0 +1,29 @@
+---
+// ABOUT — Partner institutions. The list and map come from src/data/institutions.yml;
+// member counts from src/data/members.yml.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import InstitutionList from '../../components/InstitutionList.astro';
+import TuscanyMap from '../../components/TuscanyMap.astro';
+import { site, institutions } from '../../lib/data';
+const words = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+const cities = new Set(institutions.map((i) => i.city)).size;
+---
+<BaseLayout title="Partner institutions" description={`The universities and schools that make up the ${site.shortName} network.`}>
+  <PageHeader
+    title="Partner institutions"
+    intro={`${site.shortName} links economic historians at ${words[institutions.length] ?? institutions.length} universities and schools in ${words[cities] ?? cities} Tuscan cities.`}
+    crumbs={[{ label: 'About', href: '/about/' }, { label: 'Partner institutions', href: '/about/institutions/' }]}
+  />
+
+  <div class="container-page grid gap-12 py-16 lg:grid-cols-12">
+    <div class="lg:col-span-7">
+      <InstitutionList detailed />
+    </div>
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-28">
+        <TuscanyMap compact />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

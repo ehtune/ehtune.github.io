@@ -1,0 +1,17 @@
+---
+// The dotted bar from the logo, on its own: a pale slanted bar with the six coloured dots.
+// Used as a decorative motif (page headers, homepage). Purely ornamental, hidden from screen readers.
+import logo from '../data/logo.json';
+interface Props { class?: string; tilt?: boolean }
+const { class: className, tilt = true } = Astro.props;
+const b = logo.bar;
+const dots = ['#8ec5cc', '#f94b2c', '#f5be18', '#9a8aae', '#8bd1d9', '#535f9e'];
+const pad = 22;
+const vb = `${-b.w / 2 - pad} ${-b.h / 2 - pad / 2} ${b.w + pad * 2} ${b.h + pad}`;
+---
+<svg viewBox={vb} class={className} aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <g transform={tilt ? `rotate(${b.angle})` : undefined}>
+    <rect x={-b.w / 2} y={-b.h / 2} width={b.w} height={b.h} fill="var(--color-bar)" />
+    {b.dots.map((y, i) => <circle cx="0" cy={y} r={b.dotR} fill={dots[i]} />)}
+  </g>
+</svg>

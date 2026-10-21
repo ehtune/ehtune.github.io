@@ -18,7 +18,7 @@ const { items, compact = false, empty = 'News from the network will be posted he
           <time datetime={fmt.iso(n.data.date)}>{fmt.long(n.data.date)}</time>
           {n.data.category !== 'News' && <span class="tag">{n.data.category}</span>}
         </p>
-        <h3 class:list={['mt-1.5 font-display leading-snug group-hover:text-cipresso', compact ? 'text-xl' : 'text-2xl']}>
+        <h3 class:list={['mt-1.5 font-display leading-snug group-hover:text-blu', compact ? 'text-xl' : 'text-2xl']}>
           <a href={url(`/news/${n.id}/`)} class="after:absolute after:inset-0">{n.data.title}</a>
         </h3>
         <p class:list={['mt-2 max-w-[65ch] leading-relaxed', compact ? 'text-[0.95rem] text-pietra' : 'text-[0.98rem]']}>{n.data.summary}</p>

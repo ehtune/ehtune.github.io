@@ -1,16 +1,21 @@
 ---
-// Header/footer lockup: the EH/tune logo mark beside the network's full name.
+// Logo lockup, as in the original artwork: the EH/tune mark on the logo blue,
+// with the network's full name running underneath it.
+//   stacked — name below the mark (header)
+//   inline  — name beside the mark (footer)
 import LogoMark from './LogoMark.astro';
 import { site } from '../lib/data';
-interface Props { inverse?: boolean; size?: 'md' | 'lg' }
-const { inverse = false, size = 'md' } = Astro.props;
+interface Props { layout?: 'stacked' | 'inline'; size?: 'md' | 'lg' }
+const { layout = 'stacked', size = 'md' } = Astro.props;
 ---
-<span class="inline-flex items-center gap-3.5">
-  <LogoMark variant={inverse ? 'dark' : 'light'} class:list={['w-auto shrink-0', size === 'lg' ? 'h-[3.6rem]' : 'h-[3rem]']} title={site.shortName} />
-  <span
-    class:list={[
-      'hidden sm:block border-l pl-3.5 text-[0.78rem] leading-tight max-w-[13rem]',
-      inverse ? 'border-white/25 text-intonaco/80' : 'border-pietra-200 text-pietra',
-    ]}
-  >{site.fullName}</span>
-</span>
+{layout === 'stacked' ? (
+  <span class="flex flex-col items-start">
+    <LogoMark class:list={['w-auto shrink-0', size === 'lg' ? 'h-[3.4rem]' : 'h-[2.6rem] sm:h-[3rem]']} title={site.shortName} />
+    <span class="mt-1 text-[0.68rem] font-semibold leading-none tracking-[0.045em] text-white/85 sm:text-[0.74rem]">{site.fullName}</span>
+  </span>
+) : (
+  <span class="inline-flex items-center gap-3.5">
+    <LogoMark class:list={['w-auto shrink-0', size === 'lg' ? 'h-[3.6rem]' : 'h-[3rem]']} title={site.shortName} />
+    <span class="hidden max-w-[13rem] border-l border-white/25 pl-3.5 text-[0.78rem] leading-tight text-white/80 sm:block">{site.fullName}</span>
+  </span>
+)}

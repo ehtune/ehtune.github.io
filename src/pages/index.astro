@@ -11,6 +11,7 @@ import EventLedger from '../components/EventLedger.astro';
 import NewsList from '../components/NewsList.astro';
 import ProjectList from '../components/ProjectList.astro';
 import InstitutionList from '../components/InstitutionList.astro';
+import DotBar from '../components/DotBar.astro';
 import { site } from '../lib/data';
 import { url, today } from '../lib/utils';
 
@@ -32,18 +33,24 @@ const both = upcoming.length > 0 && news.length > 0;
 <BaseLayout>
   <Hero hasUpcoming={upcoming.length > 0} />
 
-  <!-- Our history -->
-  <section class="container-page grid gap-10 py-20 lg:grid-cols-12" aria-labelledby="history-title">
-    <h2 id="history-title" class="text-[clamp(2rem,1.6rem+1.4vw,2.8rem)] lg:col-span-4">Our history</h2>
-    <div class="space-y-5 text-[1.08rem] leading-[1.75] lg:col-span-7">
-      {historyParas.map((p) => <p>{p}</p>)}
-      <p><a href={url('/about/')} class="link">Read about the network's goals</a></p>
+  <!-- Our history: on the logo blue, with the dotted bar -->
+  <section class="relative overflow-hidden bg-blu text-white" aria-labelledby="history-title">
+    <DotBar class="pointer-events-none absolute -bottom-8 left-[2%] hidden h-[115%] opacity-90 lg:block" />
+    <div class="container-page relative grid gap-10 py-20 lg:grid-cols-12">
+      <h2 id="history-title" class="text-[clamp(2rem,1.6rem+1.4vw,2.8rem)] !text-white lg:col-span-4 lg:pl-24">Our history</h2>
+      <div class="space-y-5 text-[1.08rem] leading-[1.75] text-white/90 lg:col-span-7">
+        {historyParas.map((p) => <p>{p}</p>)}
+        <p class="flex flex-wrap gap-x-6 gap-y-2 pt-2">
+          <a href={url('/about/what-we-do/')} class="font-semibold text-white underline decoration-corallo decoration-2 underline-offset-4 hover:decoration-white">What we do</a>
+          <a href={url('/events/past/')} class="font-semibold text-white underline decoration-corallo decoration-2 underline-offset-4 hover:decoration-white">Past workshops</a>
+        </p>
+      </div>
     </div>
   </section>
 
   <!-- Upcoming events | In the news (only when there is something to show) -->
   {(upcoming.length > 0 || news.length > 0) && (
-    <section class="mb-20 border-y border-pietra-200 bg-pietra-100/60" aria-label="Events and news">
+    <section class="border-b border-pietra-200 bg-carta" aria-label="Events and news">
       <div class="container-page grid gap-14 py-20 lg:grid-cols-12">
         {upcoming.length > 0 && (
           <div class:list={[both ? 'lg:col-span-7' : 'lg:col-span-12']}>
@@ -69,7 +76,7 @@ const both = upcoming.length > 0 && news.length > 0;
 
   <!-- Research (switch: site.yml → sections → research) -->
   {projects.length > 0 && (
-    <section class="container-page pb-20" aria-labelledby="research-title">
+    <section class="container-page pt-20" aria-labelledby="research-title">
       <h2 id="research-title" class="section-title flex items-baseline justify-between gap-4">
         Research tracks
         <a href={url('/research/')} class="link font-sans text-[0.95rem]">All research</a>
@@ -79,10 +86,13 @@ const both = upcoming.length > 0 && news.length > 0;
   )}
 
   <!-- Institutions -->
-  <section class="container-page pb-4" aria-labelledby="institutions-title">
+  <section class="container-page pt-20" aria-labelledby="institutions-title">
     <h2 id="institutions-title" class="section-title flex items-baseline justify-between gap-4">
       Partner institutions
-      <a href={url('/about/members/')} class="link font-sans text-[0.95rem]">Members</a>
+      <span class="flex gap-5">
+        <a href={url('/about/institutions/')} class="link font-sans text-[0.95rem]">Institutions</a>
+        <a href={url('/members/')} class="link font-sans text-[0.95rem]">Members</a>
+      </span>
     </h2>
     <InstitutionList />
   </section>

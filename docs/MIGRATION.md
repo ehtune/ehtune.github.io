@@ -39,7 +39,7 @@ Set the new address permanently in `astro.config.mjs` (replace `https://ehtune.g
 once the University site is the official one. Then, in *Settings → Pages*, you can unpublish the GitHub
 copy or leave it as a mirror.
 
-**Server notes for IT.** Pages are served as `folder/index.html` (e.g. `/about/members/index.html`), so the
+**Server notes for IT.** Pages are served as `folder/index.html` (e.g. `/members/index.html`), so the
 server must serve `index.html` for a directory request (the default in Apache and Nginx). A custom
 `404.html` is included at the root of the export. Recommended: long cache headers for `/_astro/`
 (the file names change whenever their content changes).

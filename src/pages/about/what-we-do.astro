@@ -1,0 +1,32 @@
+---
+// ABOUT — What we do. The four activities are the "goals" list in src/data/site.yml.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { site } from '../../lib/data';
+import { url } from '../../lib/utils';
+const accents = ['var(--color-blu)', 'var(--color-cinabro)', 'var(--color-dot-6)', 'var(--color-corallo)'];
+---
+<BaseLayout title="What we do" description={`The activities of the ${site.shortName} network.`}>
+  <PageHeader
+    title="What we do"
+    intro="Shared seminars and workshops, training for doctoral students, and research projects across the Tuscan universities."
+    crumbs={[{ label: 'About', href: '/about/' }, { label: 'What we do', href: '/about/what-we-do/' }]}
+  />
+
+  <div class="container-page py-16">
+    <ol class="grid gap-6 md:grid-cols-2">
+      {site.goals.map((g, i) => (
+        <li class="relative border border-pietra-200 bg-carta p-7 pl-20" style={`--accent:${accents[i % accents.length]}`}>
+          <span class="absolute left-6 top-6 grid size-10 place-items-center rounded-full text-[1.15rem] font-bold text-white" style="background:var(--accent)" aria-hidden="true">{i + 1}</span>
+          <h2 class="text-[1.45rem] leading-snug">{g.title}</h2>
+          <p class="mt-2 max-w-[52ch] leading-relaxed text-ink/85">{g.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <p class="mt-12 flex flex-wrap gap-3">
+      <a href={url('/events/past/')} class="btn btn-primary">Past workshops</a>
+      <a href={url('/contact/')} class="btn btn-secondary">Propose an activity</a>
+    </p>
+  </div>
+</BaseLayout>

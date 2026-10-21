@@ -5,6 +5,8 @@
 import map from '../data/tuscany-map.json';
 import { institutions, site } from '../lib/data';
 import { url } from '../lib/utils';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
 
 const { minLon, maxLat, kx, scale, pad } = map.projection;
 const [, , W, H] = map.viewBox.split(' ').map(Number);
@@ -49,46 +51,58 @@ const parallels = [42.5, 43, 43.5, 44].map((lat) => ({ lat, y: project(minLon, l
 const meridians = [10, 10.5, 11, 11.5, 12].map((lon) => ({ lon, x: project(lon, maxLat).x })).filter((m) => m.x > 0 && m.x < W);
 const deg = (v: number, pos: string, neg: string) => `${Math.floor(Math.abs(v))}°${Math.abs(v) % 1 ? '30′' : ''} ${v >= 0 ? pos : neg}`;
 ---
-<figure class="tuscany-map relative">
-  <svg viewBox={map.viewBox} class="h-auto w-full" role="img" aria-labelledby="map-title map-desc">
-    <title id="map-title">The {site.shortName} network in Tuscany</title>
-    <desc id="map-desc">Map of Tuscany marking the member institutions: {institutions.map((i) => `${i.name} (${i.city})`).join('; ')}.</desc>
+<figure class:list={['tuscany-map relative overflow-hidden rounded-md bg-blu-50 ring-1 ring-blu-100', compact && 'compact']}>
+  <svg viewBox={map.viewBox} class="h-auto w-full" role="img" aria-labelledby={`map-title${compact ? '-c' : ''} map-desc${compact ? '-c' : ''}`}>
+    <title id={`map-title${compact ? '-c' : ''}`}>The {site.shortName} network in Tuscany</title>
+    <desc id={`map-desc${compact ? '-c' : ''}`}>Map of Tuscany marking the member institutions: {institutions.map((i) => `${i.name} (${i.city})`).join('; ')}.</desc>
 
-    <g class="text-pietra-200" stroke="currentColor" stroke-width="0.75" stroke-dasharray="2 4">
+    <!-- Sea: graticule and name -->
+    <g stroke="var(--color-blu-300)" stroke-width="0.75" stroke-dasharray="2 5" opacity="0.8">
       {parallels.map((p) => <line x1="0" x2={W} y1={p.y} y2={p.y} />)}
       {meridians.map((m) => <line y1="0" y2={H} x1={m.x} x2={m.x} />)}
     </g>
-    <g class="fill-pietra font-sans" font-size="11" letter-spacing="0.04em">
+    <g fill="var(--color-blu-500)" class="font-sans" font-size="11" letter-spacing="0.04em">
       {parallels.map((p) => <text x={W - 6} y={p.y - 5} text-anchor="end">{deg(p.lat, 'N', 'S')}</text>)}
       {meridians.map((m) => <text x={m.x + 5} y={H - 8}>{deg(m.lon, 'E', 'W')}</text>)}
     </g>
+    <text x="30" y="404" class="sea-name font-sans" fill="var(--color-blu-500)" font-size="16" font-style="italic" letter-spacing="0.22em"><tspan x="30">Tyrrhenian</tspan><tspan x="30" dy="21">Sea</tspan></text>
 
-    <path d={map.path} class="fill-carta stroke-pietra" stroke-width="1.1" stroke-linejoin="round" />
+    <!-- Land: coastal water-lines, a soft shadow, then the region itself -->
+    <path d={map.path} fill="none" stroke="var(--color-blu-100)" stroke-width="22" stroke-linejoin="round" />
+    <path d={map.path} fill="none" stroke="var(--color-blu-300)" stroke-width="7" stroke-linejoin="round" opacity="0.45" />
+    <path d={map.path} transform="translate(4 6)" fill="var(--color-blu-300)" opacity="0.55" />
+    <path d={map.path} fill="url(#land)" stroke="var(--color-blu)" stroke-width="1.3" stroke-linejoin="round" />
+    <defs>
+      <linearGradient id="land" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffffff" />
+        <stop offset="1" stop-color="#eef3fa" />
+      </linearGradient>
+    </defs>
 
-    <g class="network-lines stroke-cipresso" stroke-width="1" fill="none" opacity="0.55">
+    <g class="network-lines" stroke="var(--color-blu-500)" stroke-width="1.6" stroke-linecap="round" fill="none">
       {lines.map(([a, b], i) => (
         <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} pathLength="1" style={`--i:${i}`} />
       ))}
     </g>
 
     {labels.map((l) => (
-      <a href={url('/about/members/#institutions')} aria-label={l.names.join(', ')} class="map-marker">
+      <a href={url('/about/institutions/')} aria-label={l.names.join(', ')} class="map-marker">
         <polyline
           points={`${l.x},${l.y} ${l.side === 'left' ? l.x - 14 : l.x + 14},${l.ly} ${labelX(l) + (l.side === 'left' ? 4 : -4)},${l.ly}`}
-          class="stroke-pietra" stroke-width="0.75" fill="none"
+          stroke="var(--color-blu)" stroke-width="0.9" fill="none"
         />
-        <circle cx={l.x} cy={l.y} r="11" class="fill-cinabro/10" />
-        <circle cx={l.x} cy={l.y} r={4 + Math.min(l.names.length, 4)} class="fill-cinabro stroke-carta" stroke-width="2" />
+        <circle cx={l.x} cy={l.y} r="12" class="pulse" fill="var(--color-cinabro)" opacity="0.18" />
+        <circle cx={l.x} cy={l.y} r={5 + Math.min(l.names.length, 4)} fill="var(--color-cinabro)" stroke="#fff" stroke-width="2.5" />
         <text
-          x={labelX(l)} y={l.ly + 2}
+          x={labelX(l)} y={l.ly + 3}
           text-anchor={l.side === 'left' ? 'end' : 'start'}
-          class="map-city fill-ink font-display italic" font-size="21"
+          class="map-city font-sans" font-weight="700" fill="var(--color-blu)" font-size="23"
         >{l.cities.join(', ')}</text>
         <text
-          x={labelX(l)} y={l.ly + 20}
+          x={labelX(l)} y={l.ly + 21}
           text-anchor={l.side === 'left' ? 'end' : 'start'}
-          class="map-inst fill-pietra font-sans" font-size="12.5"
-        >{l.short.join(', ')}</text>
+          class="map-inst font-sans" font-weight="600" fill="var(--color-cinabro)" font-size="13.5" letter-spacing="0.02em"
+        >{l.short.join(' · ')}</text>
         <title>{l.names.join('\n')}</title>
       </a>
     ))}
@@ -96,7 +110,8 @@ const deg = (v: number, pos: string, neg: string) => `${Math.floor(Math.abs(v))}
 </figure>
 
 <style>
-  /* The one orchestrated motion on the site: the network draws itself once on load. */
+  /* The one orchestrated motion on the site: the network draws itself once on load,
+     and the institutions glow softly. Both are skipped for visitors who prefer less motion. */
   @media (prefers-reduced-motion: no-preference) {
     .network-lines line {
       stroke-dasharray: 1;
@@ -105,21 +120,33 @@ const deg = (v: number, pos: string, neg: string) => `${Math.floor(Math.abs(v))}
       animation-delay: calc(0.35s + var(--i) * 0.09s);
     }
     @keyframes draw { to { stroke-dashoffset: 0; } }
+    .pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulse 2.8s ease-out 1.6s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.7); opacity: 0.35; }
+      100% { transform: scale(2.1); opacity: 0; }
+    }
   }
   /* Cartographic halo: labels stay legible where they cross the coastline or the network lines. */
   .map-marker text {
     paint-order: stroke;
-    stroke: var(--color-carta);
+    stroke: #fff;
     stroke-width: 5px;
     stroke-linejoin: round;
   }
+  .sea-name { paint-order: stroke; stroke: var(--color-blu-50); stroke-width: 4px; }
   /* On phones the map is drawn small: larger city names, institutions listed elsewhere on the page. */
   @media (max-width: 640px) {
-    .map-city { font-size: 30px; }
+    .map-city { font-size: 32px; }
     .map-inst { display: none; }
+    .sea-name { font-size: 22px; }
   }
-  .map-marker:hover text:first-of-type,
-  .map-marker:focus-visible text:first-of-type { fill: var(--color-cinabro); }
+  .compact .map-inst { display: none; }
+  .map-marker:hover .map-city,
+  .map-marker:focus-visible .map-city { fill: var(--color-cinabro); }
   .map-marker:focus-visible { outline: none; }
-  .map-marker:focus-visible circle:last-of-type { stroke: var(--color-cinabro); stroke-width: 3; }
+  .map-marker:focus-visible circle:last-of-type { stroke: var(--color-blu); stroke-width: 3; }
 </style>

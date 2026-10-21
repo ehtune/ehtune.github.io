@@ -58,4 +58,4 @@ npm run preview    # serves dist/ locally
 ## Credits
 
 Map boundaries © ISTAT, released under CC BY 4.0 (via openpolis/geojson-italy).
-Fonts: Bodoni Moda and Titillium Web (SIL Open Font License), bundled with the site.
+Font: Titillium Web (SIL Open Font License), bundled with the site.

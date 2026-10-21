@@ -1,0 +1,30 @@
+---
+// MEMBERS — all members in alphabetical order (partner institutions have their own page).
+// To add or remove a person, edit src/data/members.yml.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import MemberDirectory from '../components/MemberDirectory.astro';
+import { site } from '../lib/data';
+import { url } from '../lib/utils';
+---
+<BaseLayout title="Members" description={`Economic historians, researchers and doctoral students in the ${site.shortName} network.`}>
+  <PageHeader
+    title="Members"
+    intro={`The ${site.shortName} network brings together faculty, researchers and doctoral students in economic history at Tuscany's universities.`}
+    crumbs={[{ label: 'Members', href: '/members/' }]}
+  />
+
+  <div class="container-page pt-16">
+    <section id="directory" class="scroll-mt-28" aria-labelledby="directory-title">
+      <h2 id="directory-title" class="section-title">Directory</h2>
+      <MemberDirectory />
+    </section>
+
+    <aside class="mt-12 border-l-4 border-cinabro bg-blu-50 px-6 py-5 text-[0.98rem]">
+      <p>
+        Economic historians at one of the <a href={url('/about/institutions/')} class="link">partner institutions</a> can join the network.
+        <a href={url('/contact/')} class="link">Get in touch</a> to be listed here.
+      </p>
+    </aside>
+  </div>
+</BaseLayout>
