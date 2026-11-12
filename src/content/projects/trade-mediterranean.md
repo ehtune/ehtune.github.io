@@ -6,7 +6,6 @@ coordinators:
   - Luca Verdi
 institutions:
   - unipi
-  - sns
 summary: Trade networks, merchant firms and port institutions linking Tuscany to the Mediterranean and Atlantic economies.
 order: 3
 ---

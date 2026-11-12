@@ -24,6 +24,23 @@ const accents = ['var(--color-blu)', 'var(--color-cinabro)', 'var(--color-dot-6)
       ))}
     </ol>
 
+    {site.related.length > 0 && (
+      <section class="mt-16" aria-labelledby="related-title">
+        <h2 id="related-title" class="section-title">Economic history in Italy</h2>
+        <p class="mb-6 max-w-[65ch] text-[1.02rem] leading-relaxed">The national associations and the journal that the network's members contribute to.</p>
+        <ul class="grid gap-5 md:grid-cols-3">
+          {site.related.map((r) => (
+            <li class="relative border border-pietra-200 border-l-[5px] border-l-blu bg-carta px-6 py-6">
+              <p class="text-[1.2rem] font-bold leading-snug text-blu">
+                <a href={r.url} class="after:absolute after:inset-0 hover:underline">{r.name}</a>
+              </p>
+              {r.text && <p class="mt-2 text-[0.95rem] leading-relaxed text-ink/85">{r.text}</p>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
     <p class="mt-12 flex flex-wrap gap-3">
       <a href={url('/events/past/')} class="btn btn-primary">Past workshops</a>
       <a href={url('/contact/')} class="btn btn-secondary">Propose an activity</a>

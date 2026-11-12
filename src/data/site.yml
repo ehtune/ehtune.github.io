@@ -64,6 +64,19 @@ supporters:
   - name: Department of Economics and Statistics, University of Siena
     url: https://www.deps.unisi.it
 
+# ECONOMIC HISTORY IN ITALY — related associations and journals, shown in the footer of every
+# page and on About → What we do. "text" is a one-line description.
+related:
+  - name: Associazione per la Storia Economica (ASE)
+    url: https://www.associazionestoriaeconomica.com/
+    text: The association of economic historians that publishes the Rivista di Storia Economica.
+  - name: Rivista di Storia Economica
+    url: https://www.rivisteweb.it/issn/0393-3415
+    text: The Italian Review of Economic History, founded by Luigi Einaudi in 1936 and published by il Mulino.
+  - name: ARiSE
+    url: https://ariseweb.org/eng/
+    text: The Italian Society for Research in Economic History (Associazione Italiana per la Ricerca in Storia Economica).
+
 # SECTIONS — switch parts of the site on (true) or off (false).
 #  research: the "Research & Projects" menu, its pages and the homepage section.
 #            The texts stay in src/content/projects/ and src/data/publications.yml, ready for later.
@@ -101,6 +114,8 @@ nav:
         href: /events/
       - label: Past events
         href: /events/past/
+      - label: Videos
+        href: /events/videos/
       - label: News
         href: /news/
       - label: Opportunities

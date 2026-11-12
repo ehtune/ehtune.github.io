@@ -1,10 +1,10 @@
 ---
 // MEMBERS — all members in alphabetical order (partner institutions have their own page).
-// To add or remove a person, edit src/data/members.yml.
+// To add or remove a person, edit src/data/members.yml (friends: src/data/friends.yml).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import MemberDirectory from '../components/MemberDirectory.astro';
-import { site } from '../lib/data';
+import { site, friends } from '../lib/data';
 import { url } from '../lib/utils';
 ---
 <BaseLayout title="Members" description={`Economic historians, researchers and doctoral students in the ${site.shortName} network.`}>
@@ -19,6 +19,31 @@ import { url } from '../lib/utils';
       <h2 id="directory-title" class="section-title">Directory</h2>
       <MemberDirectory />
     </section>
+
+    {friends.length > 0 && (
+      <section id="friends" class="mt-16 scroll-mt-28" aria-labelledby="friends-title">
+        <h2 id="friends-title" class="section-title">Friends of the network</h2>
+        <p class="mb-6 max-w-[65ch] text-[1.02rem] leading-relaxed">
+          Economic historians outside Tuscany who support {site.shortName} and take part in its workshops and activities.
+        </p>
+        <ul class="grid gap-x-10 gap-y-5 border-t border-pietra-200 pt-6 sm:grid-cols-2 lg:grid-cols-3">
+          {friends.map((f) => (
+            <li>
+              {f.url ? (
+                <a href={f.url} class="group/name inline-flex items-baseline gap-1.5 text-[1.2rem] leading-snug text-ink hover:text-blu">
+                  <span class="underline decoration-pietra-200 decoration-1 underline-offset-4 group-hover/name:decoration-blu">{f.firstName} <span class="font-bold">{f.surname}</span></span>
+                  <svg class="size-3 shrink-0 text-pietra group-hover/name:text-blu" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+                  <span class="sr-only">(personal page)</span>
+                </a>
+              ) : (
+                <span class="text-[1.2rem] leading-snug">{f.firstName} <span class="font-bold">{f.surname}</span></span>
+              )}
+              {f.affiliation && <span class="mt-0.5 block text-[0.93rem] text-pietra">{f.affiliation}</span>}
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <aside class="mt-12 border-l-4 border-cinabro bg-blu-50 px-6 py-5 text-[0.98rem]">
       <p>

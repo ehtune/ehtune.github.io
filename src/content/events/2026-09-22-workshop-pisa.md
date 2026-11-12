@@ -5,6 +5,8 @@ date: 2026-09-22
 location: Domus Mazziniana, Via Massimo D'Azeglio 14, Pisa
 summary: Six papers by members of the network, each followed by a discussant, at the Domus Mazziniana in Pisa.
 programme: /files/meetings/ehtune-10-2026-pisa.pdf
+photo: /images/events/ehtune-10-2026-pisa.jpg
+photoCaption: Participants of the 10th EH/tune Workshop in front of the Domus Mazziniana, Pisa, 22 September 2026.
 ---
 
 ## Papers

@@ -25,13 +25,15 @@ institutions:
     lat: 43.7167
     lon: 10.3966
 
-  - id: sns
-    name: Scuola Normale Superiore
-    shortName: SNS
-    city: Pisa
-    url: https://www.sns.it
-    lat: 43.7194
-    lon: 10.4003
+  # Scuola Normale Superiore — hidden until it has members in the network.
+  # To show it again, remove the "# " at the start of the seven lines below.
+  # - id: sns
+  #   name: Scuola Normale Superiore
+  #   shortName: SNS
+  #   city: Pisa
+  #   url: https://www.sns.it
+  #   lat: 43.7194
+  #   lon: 10.4003
 
   - id: sssa
     name: Sant'Anna School of Advanced Studies

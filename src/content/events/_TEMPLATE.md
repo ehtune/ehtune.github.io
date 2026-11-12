@@ -7,7 +7,7 @@
 # The event shows under "Upcoming events" until its date has passed, then moves to "Past events".
 
 title: Title of the seminar or paper
-# type — one of: Seminar | Workshop | Conference | Lecture | PhD workshop | Summer school | Other
+# type — one of: Seminar | Workshop | Conference | Lecture | Book presentation | PhD workshop | Summer school | Other
 type: Seminar
 date: 2027-03-12            # YYYY-MM-DD
 endDate: 2027-03-13         # optional, for events lasting more than one day
@@ -20,6 +20,12 @@ summary: One or two sentences shown in the event list.
 registration: https://example.org/register   # optional link
 programme: /files/meetings/programme.pdf     # optional — upload the PDF to public/files/meetings/
 cancelled: false            # optional — true if the event did not take place
+cancelledReason: due to the COVID-19 pandemic   # optional — shown in the "cancelled" notice
+videos:                     # optional — recordings, one label + link per part
+  - label: First session
+    url: https://www.youtube.com/watch?v=XXXXXXXXXXX
+photo: /images/events/photo.jpg   # optional — upload the photo to public/images/events/
+photoCaption: Participants of the workshop in front of ...   # optional, describe the photo
 ---
 
 Longer description, abstract or programme. You can use **bold**, *italics*, lists and [links](https://example.org).

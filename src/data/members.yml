@@ -5,7 +5,7 @@
 #  Each member is one block of four lines:
 #   surname      e.g. De Luca   (used for the alphabetical order)
 #   firstName    e.g. Giovanni
-#   institution  one of: unifi | unipi | sns | sssa | unisi   (see institutions.yml)
+#   institution  one of: unifi | unipi | sssa | unisi   (see institutions.yml)
 #   url          link to the person's institutional or personal page — leave "" if none
 #
 #  To add someone: copy a block (from "- surname" to "url"), paste it anywhere, change it.
@@ -108,3 +108,8 @@ members:
     firstName: "Edoardo"
     institution: unisi
     url: "https://scholar.google.com/citations?user=Z1DW3qMAAAAJ&hl=it"
+
+  - surname: "Lavista"
+    firstName: "Fabio"
+    institution: unipi
+    url: "https://www.unipi.it/ateneo/organizzazione/persone/fabio-dario-luigi-lavista-137528/"

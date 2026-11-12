@@ -1,0 +1,24 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  FRIENDS OF THE NETWORK — economic historians outside Tuscany who support the network
+#  and take part in its activities. Shown on the Members page, below the directory, in
+#  alphabetical order of surname (the order in this file does not matter).
+#
+#  Each friend is one block of four lines:
+#   surname      e.g. Federico
+#   firstName    e.g. Giovanni
+#   affiliation  free text, e.g. NYU Abu Dhabi
+#   url          link to the person's page — leave "" if none
+#
+#  To add someone: copy a block, paste it at the end, change it.
+# ─────────────────────────────────────────────────────────────────────────────
+
+friends:
+  - surname: "Buscemi"
+    firstName: "Tancredi"
+    affiliation: "LUMSA University, Rome"
+    url: "https://tancredibuscemi.weebly.com/"
+
+  - surname: "Federico"
+    firstName: "Giovanni"
+    affiliation: "NYU Abu Dhabi"
+    url: "https://nyuad.nyu.edu/en/academics/divisions/social-science/faculty/giovanni-federico.html"

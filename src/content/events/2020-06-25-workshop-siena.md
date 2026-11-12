@@ -5,9 +5,10 @@ date: 2020-06-25
 endDate: 2020-06-26
 location: Department of Economics and Statistics, Aula Goodwin, Siena
 institution: unisi
-summary: Planned for June 2020 in Siena. The workshop was cancelled; the programme that had been prepared is available as a PDF.
+summary: Planned for June 2020 in Siena, the workshop was cancelled due to the COVID-19 pandemic. The programme that had been prepared is available as a PDF.
 programme: /files/meetings/ehtune-09-2020-siena-cancelled.pdf
 cancelled: true
+cancelledReason: due to the COVID-19 pandemic
 ---
 
-The ninth workshop was to bring together ten papers on human capital, wages and inequality in the long run.
+The ninth workshop, cancelled due to the COVID-19 pandemic, was to bring together ten papers on human capital, wages and inequality in the long run.

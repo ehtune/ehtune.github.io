@@ -73,7 +73,21 @@ Abstract of the paper.
 The event appears under **Upcoming events** and on the homepage, and moves to **Past events**
 automatically the day after it ends. To attach the programme, upload the PDF to `public/files/meetings/`
 (*Add file → Upload files*) and add `programme: /files/meetings/the-file-name.pdf`. For an event that did
-not take place, add `cancelled: true`.
+not take place, add `cancelled: true` (and, if you like, `cancelledReason: due to the COVID-19 pandemic`).
+
+**Videos and photos.** For recordings, add one line pair per session; the event then also appears on the
+*Videos* page:
+
+```yaml
+videos:
+  - label: First session
+    url: https://www.youtube.com/watch?v=46yx6fjFqGA
+  - label: Second session
+    url: https://www.youtube.com/watch?v=aHcipI3jx5M
+```
+
+For a photo, upload it to `public/images/events/` (about 1800 pixels wide is plenty) and add
+`photo: /images/events/the-file-name.jpg` and `photoCaption: Participants of the workshop in front of …`.
 
 The homepage shows the *Upcoming events* and *In the news* band only when there is at least one upcoming
 event or news item, so it appears again by itself when you add one. For a multi-day event, add `endDate: 2027-03-13`.
@@ -96,10 +110,15 @@ surname, so the order in the file does not matter.
 3. Change the values and click **Commit changes…** → **Commit changes**.
 
 * `institution` is one of: `unifi` (University of Florence), `unipi` (University of Pisa),
-  `sns` (Scuola Normale Superiore), `sssa` (Sant'Anna School of Advanced Studies), `unisi` (University of Siena).
+  `sssa` (Sant'Anna School of Advanced Studies), `unisi` (University of Siena).
+  (The Scuola Normale Superiore, `sns`, is hidden until it has members: see `src/data/institutions.yml`.)
 * `url` is the person's institutional or personal page. Write `url: ""` if there is none: the name is then shown without a link.
 * To remove someone, delete their four lines.
 * For many names at once, fill in the Excel template (`docs/members-template.xlsx`) and send it to whoever maintains the site.
+
+**Friends of the network** (economic historians outside Tuscany who support the network) are in a
+separate file, `src/data/friends.yml`, shown below the members list. Each block has `affiliation`
+(free text, e.g. `NYU Abu Dhabi`) instead of `institution`.
 
 ### Show or hide Research & Projects
 

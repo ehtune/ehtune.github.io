@@ -15,7 +15,7 @@ const events = defineCollection({
   loader: glob({ pattern: '**/[^_]*.md', base: './src/content/events' }),
   schema: z.object({
     title: z.string(),
-    type: z.enum(['Seminar', 'Workshop', 'Conference', 'Lecture', 'PhD workshop', 'Summer school', 'Other']),
+    type: z.enum(['Seminar', 'Workshop', 'Conference', 'Lecture', 'Book presentation', 'PhD workshop', 'Summer school', 'Other']),
     date: z.coerce.date(),
     endDate: optionalDate,
     time: optionalText, // e.g. "14:30–16:30"
@@ -26,6 +26,14 @@ const events = defineCollection({
     registration: optionalText, // link to a registration form
     programme: optionalText, // link to a PDF programme, e.g. /files/meetings/ehtune-10-2026-pisa.pdf
     cancelled: z.boolean().nullish().transform((v) => v ?? false), // true if the event did not take place
+    cancelledReason: optionalText, // e.g. "due to the COVID-19 pandemic"
+    // Video recordings, e.g. on YouTube: one line per part, each with a label and a link.
+    videos: z
+      .array(z.object({ label: z.string(), url: z.string().url() }))
+      .nullish()
+      .transform((v) => v ?? []),
+    photo: optionalText, // a photo of the event, e.g. /images/events/ehtune-10-2026-pisa.jpg
+    photoCaption: optionalText, // shown under the photo and read out by screen readers
   }),
 });
 

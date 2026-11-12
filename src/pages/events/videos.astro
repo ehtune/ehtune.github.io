@@ -1,0 +1,48 @@
+---
+// VIDEOS — every event that has recordings (the "videos:" list in its file in src/content/events/),
+// newest first. Links open on YouTube: nothing is embedded, so the page sets no third-party cookies.
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { url, fmt, dateRange } from '../../lib/utils';
+
+const withVideos = (await getCollection('events'))
+  .filter((e) => e.data.videos.length > 0)
+  .sort((a, b) => +b.data.date - +a.data.date);
+---
+<BaseLayout title="Videos" description="Video recordings of the network's workshops and events.">
+  <PageHeader
+    title="Videos"
+    intro="Recordings of past workshops and events, session by session. The videos open on YouTube."
+    crumbs={[{ label: 'News & Events', href: '/events/' }, { label: 'Videos', href: '/events/videos/' }]}
+  />
+  <div class="container-page pt-14">
+    {withVideos.length === 0 && <p class="border-y border-pietra-200 py-8 text-pietra">No recordings yet.</p>}
+    <ol class="grid gap-8 lg:grid-cols-2">
+      {withVideos.map((e) => (
+        <li class="border border-pietra-200 bg-carta p-7">
+          <p class="text-[0.9rem] text-pietra">
+            <span class="tag">{e.data.type}</span>
+            <span class="ml-3">{dateRange(e.data.date, e.data.endDate)}</span>
+          </p>
+          <h2 class="mt-3 text-[1.45rem] leading-snug">
+            <a href={url(`/events/${e.id}/`)} class="hover:text-blu">{e.data.title}</a>
+          </h2>
+          <ul class="mt-5 divide-y divide-pietra-200 border-y border-pietra-200">
+            {e.data.videos.map((v) => (
+              <li>
+                <a href={v.url} class="group/v flex items-center gap-3 py-2.5 text-ink hover:text-blu">
+                  <span class="grid size-8 shrink-0 place-items-center rounded-full bg-cinabro text-white group-hover/v:bg-blu" aria-hidden="true">
+                    <svg class="ml-0.5 size-3" viewBox="0 0 12 12"><path d="M2.5 1.2v9.6L10.5 6z" fill="currentColor"/></svg>
+                  </span>
+                  <span class="font-semibold">{v.label}</span>
+                  <span class="sr-only">— {e.data.title} ({fmt.year(e.data.date)}), on YouTube</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ol>
+  </div>
+</BaseLayout>

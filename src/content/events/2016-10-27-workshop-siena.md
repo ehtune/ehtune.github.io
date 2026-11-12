@@ -6,6 +6,13 @@ endDate: 2016-10-28
 location: Department of Economics and Statistics, Aula Goodwin, Siena
 institution: unisi
 summary: Two days and ten papers, from living standards in medieval Rome to colonial roads in the Horn of Africa.
+videos:
+  - label: First session
+    url: https://www.youtube.com/watch?v=46yx6fjFqGA
+  - label: Second session
+    url: https://www.youtube.com/watch?v=aHcipI3jx5M
+  - label: Third session
+    url: https://www.youtube.com/watch?v=cbucMRU2TWw
 programme: /files/meetings/ehtune-06-2016-siena.pdf
 ---
 

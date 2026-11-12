@@ -41,7 +41,7 @@ content:
         label: Type
         type: select
         required: true
-        options: { values: [Seminar, Workshop, Conference, Lecture, PhD workshop, Summer school, Other] }
+        options: { values: [Seminar, Workshop, Conference, Lecture, Book presentation, PhD workshop, Summer school, Other] }
       - { name: date, label: Date, type: date, required: true, options: { format: yyyy-MM-dd } }
       - { name: endDate, label: End date (multi-day events only), type: date, options: { format: yyyy-MM-dd } }
       - { name: time, label: Time (e.g. 14:30–16:30), type: string }
@@ -52,6 +52,16 @@ content:
       - { name: registration, label: Registration link, type: string }
       - { name: programme, label: Programme (PDF), type: file, options: { input: public/files/meetings, output: /files/meetings } }
       - { name: cancelled, label: Cancelled (the event did not take place), type: boolean, default: false }
+      - { name: cancelledReason, label: Reason for cancelling (e.g. due to the COVID-19 pandemic), type: string }
+      - name: videos
+        label: Video recordings (one per session or part)
+        type: object
+        list: true
+        fields:
+          - { name: label, label: Label (e.g. First session), type: string, required: true }
+          - { name: url, label: Link (e.g. YouTube), type: string, required: true }
+      - { name: photo, label: Photo, type: image, options: { input: public/images/events, output: /images/events } }
+      - { name: photoCaption, label: Photo caption, type: string }
       - { name: body, component: body }
 
   # ── News ──────────────────────────────────────────────────────────────────
@@ -95,6 +105,23 @@ content:
           - { name: surname, label: Surname, type: string, required: true }
           - { name: firstName, label: First name, type: string, required: true }
           - { name: institution, label: Institution, component: institutionIds, required: true }
+          - { name: url, label: Personal page (link), type: string }
+
+  # ── Friends of the network (one file, below the members list) ────────────
+  - name: friends
+    label: Friends of the network
+    type: file
+    path: src/data/friends.yml
+    format: yaml
+    fields:
+      - name: friends
+        label: Friends of the network, outside Tuscany (the site sorts them by surname)
+        type: object
+        list: true
+        fields:
+          - { name: surname, label: Surname, type: string, required: true }
+          - { name: firstName, label: First name, type: string, required: true }
+          - { name: affiliation, label: Affiliation (e.g. NYU Abu Dhabi), type: string }
           - { name: url, label: Personal page (link), type: string }
 
   # ── Research tracks and projects ──────────────────────────────────────────
@@ -203,6 +230,14 @@ content:
         fields:
           - { name: name, type: string }
           - { name: url, type: string }
+      - name: related
+        label: Economic history in Italy (footer and What we do page)
+        type: object
+        list: true
+        fields:
+          - { name: name, type: string }
+          - { name: url, type: string }
+          - { name: text, label: One-line description, type: string }
       - name: nav
         label: Main menu
         type: object

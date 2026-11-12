@@ -7,6 +7,13 @@ institution: unisi
 speakers:
   - Bob Allen (NYU Abu Dhabi), keynote
 summary: A keynote lecture by Bob Allen and five papers on real wages and living standards.
+videos:
+  - label: First part
+    url: https://www.youtube.com/watch?v=U8-OXE1s7gI
+  - label: Second part
+    url: https://www.youtube.com/watch?v=Fq5bQoGaFN8
+  - label: Third part
+    url: https://www.youtube.com/watch?v=qM67XsFBrNw
 programme: /files/meetings/ehtune-07-2017-siena.pdf
 ---
 

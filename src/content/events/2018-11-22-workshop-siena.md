@@ -6,6 +6,17 @@ endDate: 2018-11-23
 location: Department of Economics and Statistics, Aula Goodwin, Siena
 institution: unisi
 summary: Eleven papers over two days in Siena, each followed by a discussant.
+videos:
+  - label: First session
+    url: https://www.youtube.com/watch?v=ZNl9BmWyJF0
+  - label: Second session
+    url: https://www.youtube.com/watch?v=SmmZI_G0KpY
+  - label: Third session
+    url: https://www.youtube.com/watch?v=4xiqz5frP-A
+  - label: Fourth session
+    url: https://www.youtube.com/watch?v=KtYLBCfHtcs
+  - label: Fifth session
+    url: https://www.youtube.com/watch?v=NFhZmoGaa4E
 programme: /files/meetings/ehtune-08-2018-siena.pdf
 ---
 

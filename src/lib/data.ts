@@ -7,6 +7,7 @@ import siteRaw from '../data/site.yml?raw';
 import institutionsRaw from '../data/institutions.yml?raw';
 import publicationsRaw from '../data/publications.yml?raw';
 import membersRaw from '../data/members.yml?raw';
+import friendsRaw from '../data/friends.yml?raw';
 
 function load<T extends z.ZodTypeAny>(file: string, raw: string, schema: T): z.infer<T> {
   let data: unknown;
@@ -42,6 +43,10 @@ export const site = load(
     contactFormEndpoint: z.string().nullish().transform((v) => v || ''),
     social: z.array(z.object({ label: z.string(), url: z.string().url() })).nullish().transform((v) => v ?? []),
     supporters: z.array(z.object({ name: z.string(), url: z.string().optional() })).nullish().transform((v) => v ?? []),
+    related: z
+      .array(z.object({ name: z.string(), url: z.string().url(), text: z.string().nullish().transform((v) => v || '') }))
+      .nullish()
+      .transform((v) => v ?? []),
     nav: z.array(navItem),
     repository: z.string().url().optional(),
     sections: z.object({ research: z.boolean().default(true) }).nullish().transform((v) => ({ research: v?.research ?? true })),
@@ -121,4 +126,19 @@ export const members: Member[] = load(
     name: `${m.firstName} ${m.surname}`,
     inst: institutionById(m.institution, `src/data/members.yml, member ${i + 1} (${m.firstName} ${m.surname})`)!,
   }))
+  .sort((a, b) => collator.compare(a.surname, b.surname) || collator.compare(a.firstName, b.firstName));
+
+// Friends of the network: supporters outside the partner institutions (src/data/friends.yml).
+const friendSchema = z.object({
+  surname: z.string().min(1),
+  firstName: z.string().min(1),
+  affiliation: z.string().nullish().transform((v) => v || ''),
+  url: z.string().nullish().transform((v) => (v ? v.trim() : '')),
+});
+export const friends = load(
+  'friends.yml',
+  friendsRaw,
+  z.object({ friends: z.array(friendSchema).nullish().transform((v) => v ?? []) }),
+)
+  .friends.map((f) => ({ ...f, name: `${f.firstName} ${f.surname}` }))
   .sort((a, b) => collator.compare(a.surname, b.surname) || collator.compare(a.firstName, b.firstName));
