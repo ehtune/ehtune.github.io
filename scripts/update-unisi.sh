@@ -28,6 +28,7 @@ if [ -z "$WEB" ] || [ ! -d "$WEB" ] || [ ! -w "$WEB" ]; then
 fi
 
 TMP="$(mktemp -d)"
+chmod 755 "$TMP"   # cp -a below gives the web folder these permissions: readable by the web server
 trap 'rm -rf "$TMP" "$TMP.new-list"' EXIT
 
 echo "Downloading the site from GitHub…"
@@ -36,6 +37,9 @@ if [ ! -f "$TMP/index.html" ] || [ ! -f "$TMP/404.html" ]; then
   echo "The download looks incomplete. Nothing was changed."
   exit 1
 fi
+
+# Pages must be readable by the web server, whatever the server's default permissions.
+chmod -R u=rwX,go=rX "$TMP"
 
 # Remove files installed last time that the new version no longer has.
 (cd "$TMP" && find . -type f | sort) > "$TMP.new-list"

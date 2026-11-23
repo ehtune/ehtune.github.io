@@ -36,8 +36,8 @@ jobs:
         env:
           SITE_URL: https://eh-tune.unisi.it
           BASE_PATH: /
-      - name: Add server settings (page-not-found page, no folder listings)
-        run: printf 'ErrorDocument 404 /404.html\nOptions -Indexes\n' > dist/.htaccess
+      - name: Add server settings (the site's own page-not-found page)
+        run: printf 'ErrorDocument 404 /404.html\n' > dist/.htaccess
       - name: Publish to the unisi-site branch
         run: |
           cd dist
