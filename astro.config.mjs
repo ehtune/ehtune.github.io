@@ -20,7 +20,9 @@ const sections = parse(readFileSync(new URL('./src/data/site.yml', import.meta.u
  *   SITE_URL   the domain only, e.g.  https://www.unisi.it
  *   BASE_PATH  the folder,     e.g.  /ehtune      (use / when the site sits at the domain root)
  */
-const site = process.env.SITE_URL || 'https://ehtune.github.io';
+// Official address: https://eh-tune.unisi.it. The copy on https://ehtune.github.io is built with
+// the same address, so its pages tell search engines that the official version is on UniSi.
+const site = process.env.SITE_URL || 'https://eh-tune.unisi.it';
 const base = process.env.BASE_PATH || '/';
 
 export default defineConfig({
