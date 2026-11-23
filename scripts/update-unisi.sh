@@ -18,7 +18,7 @@ LIST="$HOME/.ehtune-installed-files"   # files installed last time (kept outside
 
 WEB="${1:-}"
 if [ -z "$WEB" ]; then
-  for d in "$HOME/web" /web; do
+  for d in "$HOME/web/" /web/; do
     if [ -d "$d" ]; then WEB="$d"; break; fi
   done
 fi
@@ -28,7 +28,6 @@ if [ -z "$WEB" ] || [ ! -d "$WEB" ] || [ ! -w "$WEB" ]; then
 fi
 
 TMP="$(mktemp -d)"
-chmod 755 "$TMP"   # cp -a below gives the web folder these permissions: readable by the web server
 trap 'rm -rf "$TMP" "$TMP.new-list"' EXIT
 
 echo "Downloading the site from GitHub…"
@@ -51,7 +50,11 @@ if [ -f "$LIST" ]; then
   [ "$removed" -gt 0 ] && echo "Removed $removed old file(s)."
 fi
 
-cp -a "$TMP"/. "$WEB"/
+# Copy what is inside the download, one item at a time, so the web folder itself
+# (owner and permissions, set by the server) is never changed.
+for item in "$TMP"/* "$TMP"/.[!.]*; do
+  [ -e "$item" ] && cp -a "$item" "$WEB"/
+done
 mv "$TMP.new-list" "$LIST"
 
 echo "Done: $(wc -l < "$LIST") files installed in $WEB"
