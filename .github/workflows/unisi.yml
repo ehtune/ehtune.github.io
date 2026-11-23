@@ -1,0 +1,49 @@
+# UNIVERSITY OF SIENA COPY — builds the site for https://eh-tune.unisi.it and stores the
+# finished pages in the branch "unisi-site" (one commit only, replaced every time).
+#
+# The UniSi server cannot be reached from GitHub (VPN only), so the server fetches the site
+# itself: the script scripts/update-unisi.sh, run on the server, downloads this branch and
+# copies it into the web folder. Runs after every change and every night (so finished events
+# move to "Past events"), or by hand: Actions → "Build for UniSi" → Run workflow.
+name: Build for UniSi
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '23 2 * * *' # every day at 02:23 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: unisi
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Build for eh-tune.unisi.it
+        run: npm run build
+        env:
+          SITE_URL: https://eh-tune.unisi.it
+          BASE_PATH: /
+      - name: Add server settings (page-not-found page, no folder listings)
+        run: printf 'ErrorDocument 404 /404.html\nOptions -Indexes\n' > dist/.htaccess
+      - name: Publish to the unisi-site branch
+        run: |
+          cd dist
+          git init -q -b unisi-site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898699+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Site for eh-tune.unisi.it, built from ${GITHUB_SHA::7}"
+          git push -q --force "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" unisi-site
